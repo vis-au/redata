@@ -1,0 +1,14 @@
+.toolbar {
+  width: 100%;
+  max-height: 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 12px;
+  z-index: 1;
+}
