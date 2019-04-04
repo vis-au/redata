@@ -3,11 +3,15 @@ import * as React from 'react';
 import DatasetNode from '../Model/DataModel/Datasets/DatasetNode';
 import GraphNode from '../Model/DataModel/GraphNode';
 import ViewContainer from '../ToolkitView/ViewContainer';
-import DataFlowToolbar from './BottomToolbar/DataFlowToolbar';
-import DataImportPanel from './BottomToolbar/DataImportPanel';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
 import DataFlowSidebar from './Sidebar/DataFlowSidebar';
+import DataFlowToolbar from './Toolbar/DataFlowToolbar';
+import DataImportPanel from './Toolbar/DataImportPanel';
 
+import { Data } from 'vega-lite/build/src/data';
+import { Datasets } from 'vega-lite/build/src/spec/toplevel';
+import PlotTemplate from '../Model/TemplateModel/PlotTemplate';
+import SpecCompiler from '../Model/TemplateModel/SpecCompiler';
 import './DataConfigurationView.css';
 
 interface Props {
@@ -20,8 +24,14 @@ interface State {
 }
 
 export default class DataConfigurationView extends React.Component<Props, State> {
+  private specCompiler: SpecCompiler;
+
   constructor(props: Props) {
     super(props);
+
+    this.exportDataToVega = this.exportDataToVega.bind(this);
+
+    this.specCompiler = new SpecCompiler();
 
     this.state = {
       dataImportVisible: false,
@@ -63,6 +73,29 @@ export default class DataConfigurationView extends React.Component<Props, State>
     this.setState({ focusedNode: null });
   }
 
+  private getAllDatasets(): Datasets {
+    const allDatasets: Datasets = {};
+
+    this.props.datasets
+      .filter(node => node instanceof DatasetNode)
+      .forEach(node => {
+        allDatasets[node.id] = node.getSchema();
+      });
+
+    return allDatasets;
+  }
+
+  private exportDataToVega() {
+    const datasets = this.getAllDatasets();
+    const dummyTemplate = new PlotTemplate();
+    dummyTemplate.mark = 'area';
+    dummyTemplate.datasets = datasets;
+
+    const dummySchema = this.specCompiler.getVegaSpecification(dummyTemplate);
+
+    return dummySchema;
+  }
+
   private renderHeader() {
     return (
       <div id="dataFlowHeader">
@@ -95,6 +128,14 @@ export default class DataConfigurationView extends React.Component<Props, State>
 
           +
         </button>
+        <button
+          className="floatingAddButton"
+          id="exportData"
+          onClick={ this.exportDataToVega }>
+
+          <i className="material-icons icon">save_alt</i>
+        </button>
+        <textarea value={ JSON.stringify(this.exportDataToVega(), null, 2) }></textarea>
       </div>
     );
   }

@@ -15,3 +15,9 @@ button#addNewDataset {
   left: 2rem;
   background: steelblue;
 }
+button#exportData {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: steelblue;
+}
