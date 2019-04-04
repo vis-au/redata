@@ -11,7 +11,7 @@
 }
 button#addNewDataset {
   position: absolute;
-  top: 90%;
+  bottom: 5rem;
   left: 5rem;
   background: steelblue;
 }

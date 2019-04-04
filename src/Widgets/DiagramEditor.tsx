@@ -72,8 +72,7 @@ export default class DiagramEditor extends React.Component<Props, {}> {
       <article
         id={ this.props.id }
         className="diagramContainer"
-        onClick={ this.props.onDiagramClicked }
-        style={{ height: window.innerHeight - 75 }}>
+        onClick={ this.props.onDiagramClicked }>
 
         { this.props.children }
 

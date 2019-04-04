@@ -33,7 +33,7 @@ export default class FunctionalBlock extends React.Component<Props, {}> {
       <Block
         node={ this.props.node }
         focusedNode={ this.props.focusedNode }
-        name={ (this.props.node.name || this.props.node.id) }
+        name={ (this.props.node.name || this.props.node.type) }
         className={ this.doesNodeHaveDatasource() ? 'transform' : 'transform invalid' }
         body={ this.renderBody() }
         onClick= { this.props.onClick }

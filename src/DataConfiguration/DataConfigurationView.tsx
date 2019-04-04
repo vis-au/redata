@@ -3,10 +3,10 @@ import * as React from 'react';
 import DatasetNode from '../Model/DataModel/Datasets/DatasetNode';
 import GraphNode from '../Model/DataModel/GraphNode';
 import ViewContainer from '../ToolkitView/ViewContainer';
+import DataFlowToolbar from './BottomToolbar/DataFlowToolbar';
+import DataImportPanel from './BottomToolbar/DataImportPanel';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
 import DataFlowSidebar from './Sidebar/DataFlowSidebar';
-import DataFlowToolbar from './Toolbar/DataFlowToolbar';
-import DataImportPanel from './Toolbar/DataImportPanel';
 
 import './DataConfigurationView.css';
 
@@ -20,13 +20,12 @@ interface State {
 }
 
 export default class DataConfigurationView extends React.Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
 
     this.state = {
       dataImportVisible: false,
-      focusedNode: null,
+      focusedNode: null
     };
   }
 
@@ -64,43 +63,59 @@ export default class DataConfigurationView extends React.Component<Props, State>
     this.setState({ focusedNode: null });
   }
 
-  private renderDataImportPanel() {
+  private renderHeader() {
     return (
-      <DataImportPanel
-        visible={ this.state.dataImportVisible }
-        hidePanel={ () => { this.setState({ dataImportVisible: false });}}
-        addDatasetNodeToGraph={ this.addDatasetNodeToGraph.bind(this) } />
+      <div id="dataFlowHeader">
+        <DataFlowToolbar
+          datasets={ this.props.datasets }
+          updateGraph= { this.props.onDatasetsChanged }
+        />
+      </div>
+    );
+  }
+
+  private renderBody() {
+    return (
+      <div id="dataFlowBody">
+        <DataFlowDiagram
+          datasets={ this.props.datasets }
+          updateGraph= { this.props.onDatasetsChanged }
+          focusedNode={ this.state.focusedNode }
+          selectFocusedNode={ this.selectFocusedNode.bind(this) }
+          deselectFocusedNode={ this.deselectfocusedNode.bind(this) }
+        />
+        <DataFlowSidebar
+          focusedNode={ this.state.focusedNode }
+          updateFocusedNode={ this.props.onDatasetsChanged }
+        />
+        <button
+          className="floatingAddButton"
+          id="addNewDataset"
+          onClick={ () => { this.setState({ dataImportVisible: true }); } }>
+
+          +
+        </button>
+      </div>
+    );
+  }
+
+  private renderOverlays() {
+    return (
+      <div className="overlays">
+        <DataImportPanel
+          visible={ this.state.dataImportVisible }
+          hidePanel={ () => { this.setState({ dataImportVisible: false });}}
+          addDatasetNodeToGraph={ this.addDatasetNodeToGraph.bind(this) } />
+      </div>
     );
   }
 
   public render() {
     return (
       <ViewContainer id="dataFlowComponent" name="Data" activeContainerName="Data">
-        { this.renderDataImportPanel() }
-        <DataFlowToolbar
-          datasets={ this.props.datasets }
-          updateGraph= { this.props.onDatasetsChanged }
-        />
-        <div id="dataFlowBody">
-          <DataFlowDiagram
-            datasets={ this.props.datasets }
-            updateGraph= { this.props.onDatasetsChanged }
-            focusedNode={ this.state.focusedNode }
-            selectFocusedNode={ this.selectFocusedNode.bind(this) }
-            deselectFocusedNode={ this.deselectfocusedNode.bind(this) }
-          />
-          <DataFlowSidebar
-            focusedNode={ this.state.focusedNode }
-            updateFocusedNode={ this.props.onDatasetsChanged }
-          />
-          <button
-            className="floatingAddButton"
-            id="addNewDataset"
-            onClick={ () => { this.setState({ dataImportVisible: true }); } }>
-
-            +
-          </button>
-        </div>
+        { this.renderHeader() }
+        { this.renderBody() }
+        { this.renderOverlays() }
       </ViewContainer>
     );
   }
