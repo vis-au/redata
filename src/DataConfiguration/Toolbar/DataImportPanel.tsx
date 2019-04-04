@@ -1,7 +1,6 @@
 import * as React from 'react';
+import { DataImporter, DatasetNode } from 'toolkitmodel';
 
-import DataImporter from '../../Model/DataModel/DataImporter';
-import DatasetNode from '../../Model/DataModel/Datasets/DatasetNode';
 import { DatasetPreset, PRESET_DATASETS } from './DatasetPreset';
 
 import './DataImportPanel.css';

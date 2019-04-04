@@ -1,8 +1,6 @@
 import * as React from 'react';
+import { DatasetNode, GraphNode, TransformNode } from 'toolkitmodel';
 
-import DatasetNode from '../../Model/DataModel/Datasets/DatasetNode';
-import GraphNode from '../../Model/DataModel/GraphNode';
-import TransformNode from '../../Model/DataModel/Transforms/TranformNode';
 import Sidebar from '../../Widgets/Sidebar';
 import DatasetPreview from './DatasetPreview';
 

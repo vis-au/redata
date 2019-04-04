@@ -1,8 +1,7 @@
 import * as React from 'react';
+import { GraphNode, Template } from 'toolkitmodel';
 
 import DataFlowConfigurationView from './DataConfiguration/DataConfigurationView';
-import GraphNode from './Model/DataModel/GraphNode';
-import Template from './Model/TemplateModel/Template';
 import MainView from './ToolkitView/MainView';
 
 import './App.css';

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { DatasetNode } from 'toolkitmodel';
 
-import DatasetNode from '../../Model/DataModel/Datasets/DatasetNode';
 
 import './DatasetPreview.css';
 

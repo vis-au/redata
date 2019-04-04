@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-
-import GraphNode from '../../../Model/DataModel/GraphNode';
-import TransformNode from '../../../Model/DataModel/Transforms/TranformNode';
+import { GraphNode, TransformNode } from 'toolkitmodel';
 import Block from './Block';
 
 import './TransformBlock.css';

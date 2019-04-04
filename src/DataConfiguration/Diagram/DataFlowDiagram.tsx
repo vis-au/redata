@@ -1,9 +1,7 @@
 import {Connection, jsPlumb, jsPlumbInstance} from 'jsplumb';
 import * as React from 'react';
+import { DatasetNode, GraphNode, TransformNode } from 'toolkitmodel';
 
-import DatasetNode from '../../Model/DataModel/Datasets/DatasetNode';
-import GraphNode from '../../Model/DataModel/GraphNode';
-import TransformNode from '../../Model/DataModel/Transforms/TranformNode';
 import DiagramEditor from '../../Widgets/DiagramEditor';
 import DatasetBlock from './Blocks/DatasetBlock';
 import TransformBlock from './Blocks/TransformBlock';

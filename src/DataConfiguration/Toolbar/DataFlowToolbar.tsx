@@ -1,9 +1,7 @@
 import * as React from 'react';
+import { GraphNode, TransformName, transformNames, TransformNode } from 'toolkitmodel';
 import { Transform } from 'vega-lite/build/src/transform';
 
-import GraphNode from '../../Model/DataModel/GraphNode';
-import TransformNode from '../../Model/DataModel/Transforms/TranformNode';
-import { TransformName, transformNames } from '../../Model/DataModel/Transforms/TransformTypes';
 import Toolbar from '../../Widgets/Toolbar';
 
 import './DataFlowToolbar.css';
