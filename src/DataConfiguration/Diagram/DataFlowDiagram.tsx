@@ -1,4 +1,4 @@
-import {jsPlumb, jsPlumbInstance} from 'jsplumb';
+import {Connection, jsPlumb, jsPlumbInstance} from 'jsplumb';
 import * as React from 'react';
 
 import DatasetNode from '../../Model/DataModel/Datasets/DatasetNode';
@@ -32,23 +32,48 @@ interface Props {
 
 export default class DataFlowDiagram extends React.Component<Props, {}> {
   private dragPlumbing: jsPlumbInstance;
+  private graphNodeConnectionMap: Map<string, Connection[]>;
+  private connectionGraphNodeMap: Map<string, GraphNode[]>;
 
   constructor(props: Props) {
     super(props);
 
+    this.graphNodeConnectionMap = new Map();
+    this.connectionGraphNodeMap = new Map();
+
     this.dragPlumbing = jsPlumb.getInstance();
   }
 
-  private onNewConnection(event: any) {
-    // const newLink = new DatasetLink();
-    // newLink.connection = event.connection;
+  private onNewConnection(info: any, originalEvent?: any) {
+    const connection = info.connection;
 
-    // // source can either be a dataset or transform node, so id is stored in different elements
-    // const sourceNode = this.props.datasets.find(node => {
-    //   return node.id === event.source.parentNode.id || node.id === event.source.id;
-    // });
+    // source can either be a dataset or transform node, so id is stored in different elements
+    const sourceNode = this.props.datasets.find(node => {
+      return node.id === info.source.parentNode.id || node.id === info.source.id;
+    });
+    const targetNode = this.props.datasets
+      .find(node => {
+        return node.id === info.target.parentNode.id || node.id === info.target.id;
+      });
 
-    // this.props.updateGraph();
+    sourceNode.children.push(targetNode as TransformNode);
+    targetNode.parent = sourceNode;
+
+    this.connectionGraphNodeMap.set(connection.id, [sourceNode, targetNode]);
+
+    if (this.graphNodeConnectionMap.get(sourceNode.id) === undefined) {
+      this.graphNodeConnectionMap.set(sourceNode.id, []);
+    }
+    if (this.graphNodeConnectionMap.get(targetNode.id) === undefined) {
+      this.graphNodeConnectionMap.set(targetNode.id, []);
+    }
+
+    const sourceNodeConnections = this.graphNodeConnectionMap.get(sourceNode.id);
+    sourceNodeConnections.push(connection);
+    const targetNodeConnections = this.graphNodeConnectionMap.get(targetNode.id);
+    targetNodeConnections.push(connection);
+
+    this.props.updateGraph();
   }
 
   private onConnectionMoved(event: any) {

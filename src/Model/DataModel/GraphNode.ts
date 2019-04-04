@@ -24,7 +24,7 @@ export default abstract class GraphNode {
   public abstract getTransform(): Transform[];
 
   public getAllChildNodes(): TransformNode[] {
-    const allChildNodes = this.children;
+    const allChildNodes = this.children.map(n => n);
 
     this.children.forEach(childNode => {
       allChildNodes.push(...childNode.getAllChildNodes());

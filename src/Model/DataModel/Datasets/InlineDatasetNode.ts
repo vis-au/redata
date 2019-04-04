@@ -1,4 +1,4 @@
-import { DataFormat, InlineData, InlineDataset } from 'vega-lite/build/src/data';
+import { DataFormat, InlineData } from 'vega-lite/build/src/data';
 import { Transform } from 'vega-lite/build/src/transform';
 import DatasetNode from './DatasetNode';
 
@@ -10,7 +10,7 @@ export default class InlineDatasetNode extends DatasetNode {
       name: this.name,
       values: this.values,
       format: this.format,
-      transform: this.children.map(t => t.transform)
+      transform: this.getAllChildNodes().map(t => t.transform)
     };
   }
 

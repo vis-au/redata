@@ -1,17 +1,16 @@
 import * as React from 'react';
+import { Datasets } from 'vega-lite/build/src/spec/toplevel';
 
 import DatasetNode from '../Model/DataModel/Datasets/DatasetNode';
 import GraphNode from '../Model/DataModel/GraphNode';
+import PlotTemplate from '../Model/TemplateModel/PlotTemplate';
+import SpecCompiler from '../Model/TemplateModel/SpecCompiler';
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
 import DataFlowSidebar from './Sidebar/DataFlowSidebar';
 import DataFlowToolbar from './Toolbar/DataFlowToolbar';
 import DataImportPanel from './Toolbar/DataImportPanel';
 
-import { Data } from 'vega-lite/build/src/data';
-import { Datasets } from 'vega-lite/build/src/spec/toplevel';
-import PlotTemplate from '../Model/TemplateModel/PlotTemplate';
-import SpecCompiler from '../Model/TemplateModel/SpecCompiler';
 import './DataConfigurationView.css';
 
 interface Props {

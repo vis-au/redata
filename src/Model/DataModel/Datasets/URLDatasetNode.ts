@@ -11,7 +11,7 @@ export default class URLDatasetNode extends DatasetNode {
       name: this.name,
       url: this.url,
       format: this.format,
-      transform: this.children.map(t => t.transform)
+      transform: this.getAllChildNodes().map(t => t.transform)
     }
   }
 

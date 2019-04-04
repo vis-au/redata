@@ -9,7 +9,7 @@ export default class NamedDataSourceNode extends DatasetNode {
     return {
       name: this.name,
       format: this.format,
-      transform: this.children.map(t => t.transform)
+      transform: this.getAllChildNodes().map(t => t.transform)
     }
   }
 
