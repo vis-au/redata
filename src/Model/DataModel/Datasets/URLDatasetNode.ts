@@ -1,15 +1,17 @@
 import { DataFormat, UrlData } from 'vega-lite/build/src/data';
+import { Transform } from 'vega-lite/build/src/transform';
 import DatasetNode from './DatasetNode';
 
 export default class URLDatasetNode extends DatasetNode {
   public url: string;
   public format: DataFormat;
 
-  public getSchema(): UrlData {
+  public getSchema(): UrlData & { transform: Transform[] } {
     return {
       name: this.name,
       url: this.url,
-      format: this.format
+      format: this.format,
+      transform: this.children.map(t => t.transform)
     }
   }
 
