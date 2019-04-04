@@ -1,25 +1,32 @@
 import * as React from 'react';
 import { Datasets } from 'vega-lite/build/src/spec/toplevel';
 
+import DataImporter from '../Model/DataModel/DataImporter';
 import DatasetNode from '../Model/DataModel/Datasets/DatasetNode';
 import GraphNode from '../Model/DataModel/GraphNode';
 import PlotTemplate from '../Model/TemplateModel/PlotTemplate';
 import SpecCompiler from '../Model/TemplateModel/SpecCompiler';
+import Template from '../Model/TemplateModel/Template';
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
 import DataFlowSidebar from './Sidebar/DataFlowSidebar';
 import DataFlowToolbar from './Toolbar/DataFlowToolbar';
 import DataImportPanel from './Toolbar/DataImportPanel';
+import VegaInputOverlay from './Toolbar/VegaInputOverlay';
 
 import './DataConfigurationView.css';
 
 interface Props {
   datasets: GraphNode[];
+  templates: Template[];
   onDatasetsChanged: () => void;
+  onTemplatesChanged: () => void;
 }
 interface State {
   focusedNode: GraphNode;
   dataImportVisible: boolean;
+  vegaPreviewVisible: boolean;
+  customVegaInputVisible: boolean;
 }
 
 export default class DataConfigurationView extends React.Component<Props, State> {
@@ -34,11 +41,13 @@ export default class DataConfigurationView extends React.Component<Props, State>
 
     this.state = {
       dataImportVisible: false,
+      vegaPreviewVisible: false,
+      customVegaInputVisible: false,
       focusedNode: null
     };
   }
 
-  private addDatasetNodeToGraph(node: DatasetNode) {
+  private addDatasetNode(node: DatasetNode) {
     const nodes = this.props.datasets;
     const nodesWithEqualName = nodes.find(n => n.name === node.name);
 
@@ -49,6 +58,35 @@ export default class DataConfigurationView extends React.Component<Props, State>
     this.props.datasets.push(node);
 
     this.props.onDatasetsChanged();
+  }
+
+  private addTemplates(templates: Template[]) {
+    this.props.templates.push(...templates);
+    this.props.onTemplatesChanged();
+  }
+
+  private toggleVegaPreviewVisible(visible?: boolean) {
+    if (visible !== undefined) {
+      this.setState({
+        vegaPreviewVisible: visible
+      });
+    } else {
+      this.setState({
+        vegaPreviewVisible: !this.state.vegaPreviewVisible
+      });
+    }
+  }
+
+  private toggleCustomVegaInput(visible?: boolean) {
+    if (visible !== undefined) {
+      this.setState({
+        customVegaInputVisible: visible
+      });
+    } else {
+      this.setState({
+        customVegaInputVisible: !this.state.customVegaInputVisible
+      });
+    }
   }
 
   private selectFocusedNode(event: any) {
@@ -107,6 +145,8 @@ export default class DataConfigurationView extends React.Component<Props, State>
   }
 
   private renderBody() {
+    const isPreviewHidden = this.state.vegaPreviewVisible ? '' :  'hidden';
+
     return (
       <div id="dataFlowBody">
         <DataFlowDiagram
@@ -130,11 +170,21 @@ export default class DataConfigurationView extends React.Component<Props, State>
         <button
           className="floatingAddButton"
           id="exportData"
-          onClick={ this.exportDataToVega }>
+          onClick={ () => this.toggleVegaPreviewVisible() }>
 
-          <i className="material-icons icon">save_alt</i>
+          <i className="material-icons icon">code</i>
         </button>
-        <textarea value={ JSON.stringify(this.exportDataToVega(), null, 2) }></textarea>
+        <button
+          className="floatingAddButton"
+          id="vegaInput"
+          onClick={ () => this.toggleCustomVegaInput() }>
+
+          <i className="material-icons icon">attach_file</i>
+        </button>
+        <textarea
+          className={ `vegaLitePreview ${isPreviewHidden}` }
+          onChange={ () => null }
+          value={ JSON.stringify(this.exportDataToVega(), null, 2) } />
       </div>
     );
   }
@@ -145,7 +195,12 @@ export default class DataConfigurationView extends React.Component<Props, State>
         <DataImportPanel
           visible={ this.state.dataImportVisible }
           hidePanel={ () => { this.setState({ dataImportVisible: false });}}
-          addDatasetNodeToGraph={ this.addDatasetNodeToGraph.bind(this) } />
+          addDatasetNodeToGraph={ this.addDatasetNode.bind(this) } />
+        <VegaInputOverlay
+          hidden={ !this.state.customVegaInputVisible }
+          hide={ () => this.toggleCustomVegaInput(false) }
+          addTemplates={ this.addTemplates }
+        />
       </div>
     );
   }

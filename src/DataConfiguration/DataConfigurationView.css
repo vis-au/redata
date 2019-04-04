@@ -15,9 +15,33 @@ button#addNewDataset {
   left: 2rem;
   background: steelblue;
 }
+button#vegaInput {
+  position: absolute;
+  bottom: 2rem;
+  right: 6rem;
+  padding-top: 0.5rem;
+  background: steelblue;
+}
 button#exportData {
   position: absolute;
   bottom: 2rem;
   right: 2rem;
+  padding-top: 0.5rem;
   background: steelblue;
+}
+textarea.vegaLitePreview {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px #ccc;
+  position: absolute;
+  height: 25rem;
+  width: 30rem;
+  bottom: 5rem;
+  right: 2rem;
+  resize: vertical;
+  opacity: 1;
+  transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+textarea.vegaLitePreview.hidden {
+  opacity: 0;
 }
