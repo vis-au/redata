@@ -104,13 +104,19 @@ export default class DataFlowToolbar extends React.Component<Props, State> {
 
   private renderTransformGroup(key: TransformName) {
     return (
-      <button key={ key } onClick={ () => this.addTransformNode(key) }>{ key }</button>
+      <button
+        key={ key }
+        className="transform"
+        onClick={ () => this.addTransformNode(key) }>
+
+        { key }
+      </button>
     );
   }
 
   private renderTransforms() {
     return (
-      <div id="dataflowToolbarTransformGroups">
+      <div id="dataflowToolbarTransforms">
         { transformNames.map(this.renderTransformGroup.bind(this)) }
       </div>
     );
