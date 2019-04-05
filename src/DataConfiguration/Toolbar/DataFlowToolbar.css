@@ -26,13 +26,13 @@
 #dataflowToolbarTransforms .transform {
   border: none;
   background: #fff;
-  color: steelblue;
   padding: 0.5rem 1rem;
   margin: 0;
   font-size: 15px;
   cursor: pointer;
-  transition: box-shadow 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 #dataflowToolbarTransforms .transform:hover {
-  box-shadow: 0 2px 4px #ccc;
+  color: steelblue;
+  text-decoration: underline;
 }

@@ -139,6 +139,38 @@ export default class DataConfigurationView extends React.Component<Props, State>
     );
   }
 
+  private renderButtons() {
+    return (
+      <div className="buttons">
+        <div className="left">
+          <button
+            className="floatingAddButton"
+            id="addNewDataset"
+            onClick={ () => { this.setState({ dataImportVisible: true }); } }>
+
+            +
+          </button>
+        </div>
+        <div className="right">
+          <button
+            className="floatingAddButton"
+            id="vegaInput"
+            onClick={ () => this.toggleCustomVegaInput() }>
+
+            <i className="material-icons icon">attach_file</i>
+          </button>
+          <button
+            className="floatingAddButton"
+            id="exportData"
+            onClick={ () => this.toggleVegaPreviewVisible() }>
+
+            <i className="material-icons icon">code</i>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   private renderBody() {
     const isPreviewHidden = this.state.vegaPreviewVisible ? '' :  'hidden';
 
@@ -155,27 +187,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
           focusedNode={ this.state.focusedNode }
           updateFocusedNode={ this.props.onDatasetsChanged }
         />
-        <button
-          className="floatingAddButton"
-          id="addNewDataset"
-          onClick={ () => { this.setState({ dataImportVisible: true }); } }>
-
-          +
-        </button>
-        <button
-          className="floatingAddButton"
-          id="exportData"
-          onClick={ () => this.toggleVegaPreviewVisible() }>
-
-          <i className="material-icons icon">code</i>
-        </button>
-        <button
-          className="floatingAddButton"
-          id="vegaInput"
-          onClick={ () => this.toggleCustomVegaInput() }>
-
-          <i className="material-icons icon">attach_file</i>
-        </button>
+        { this.renderButtons() }
         <textarea
           className={ `vegaLitePreview ${isPreviewHidden}` }
           onChange={ () => null }
