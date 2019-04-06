@@ -4,12 +4,13 @@ import { Datasets } from 'vega-lite/build/src/spec/toplevel';
 
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
+import DataImportPanel from './Overlays/DataImportPanel';
+import VegaInputOverlay from './Overlays/VegaInputOverlay';
 import DataFlowSidebar from './Sidebar/DataFlowSidebar';
 import DataFlowToolbar from './Toolbar/DataFlowToolbar';
-import DataImportPanel from './Toolbar/DataImportPanel';
-import VegaInputOverlay from './Toolbar/VegaInputOverlay';
 
 import './DataConfigurationView.css';
+import VegaExportOverlay from './Overlays/VegaExportOverlay';
 
 interface Props {
   datasets: GraphNode[];
@@ -25,14 +26,9 @@ interface State {
 }
 
 export default class DataConfigurationView extends React.Component<Props, State> {
-  private specCompiler: SpecCompiler;
 
   constructor(props: Props) {
     super(props);
-
-    this.exportDataToVega = this.exportDataToVega.bind(this);
-
-    this.specCompiler = new SpecCompiler();
 
     this.state = {
       dataImportVisible: false,
@@ -105,29 +101,6 @@ export default class DataConfigurationView extends React.Component<Props, State>
     this.setState({ focusedNode: null });
   }
 
-  private getAllDatasets(): Datasets {
-    const allDatasets: Datasets = {};
-
-    this.props.datasets
-      .filter(node => node instanceof DatasetNode)
-      .forEach(node => {
-        allDatasets[node.id] = node.getSchema();
-      });
-
-    return allDatasets;
-  }
-
-  private exportDataToVega() {
-    const datasets = this.getAllDatasets();
-    const dummyTemplate = new PlotTemplate();
-    dummyTemplate.mark = 'area';
-    dummyTemplate.datasets = datasets;
-
-    const dummySchema = this.specCompiler.getVegaSpecification(dummyTemplate);
-
-    return dummySchema;
-  }
-
   private renderHeader() {
     return (
       <div id="dataFlowHeader">
@@ -172,8 +145,6 @@ export default class DataConfigurationView extends React.Component<Props, State>
   }
 
   private renderBody() {
-    const isPreviewHidden = this.state.vegaPreviewVisible ? '' :  'hidden';
-
     return (
       <div id="dataFlowBody">
         <DataFlowDiagram
@@ -188,10 +159,6 @@ export default class DataConfigurationView extends React.Component<Props, State>
           updateFocusedNode={ this.props.onDatasetsChanged }
         />
         { this.renderButtons() }
-        <textarea
-          className={ `vegaLitePreview ${isPreviewHidden}` }
-          onChange={ () => null }
-          value={ JSON.stringify(this.exportDataToVega(), null, 2) } />
       </div>
     );
   }
@@ -206,8 +173,10 @@ export default class DataConfigurationView extends React.Component<Props, State>
         <VegaInputOverlay
           hidden={ !this.state.customVegaInputVisible }
           hide={ () => this.toggleCustomVegaInput(false) }
-          addTemplates={ this.addTemplates }
-        />
+          addTemplates={ this.addTemplates } />
+        <VegaExportOverlay
+          datasets={ this.props.datasets }
+          visible={ !this.state.vegaPreviewVisible }/>
       </div>
     );
   }

@@ -40,19 +40,3 @@
   background: steelblue;
   margin-left: 2rem;
 }
-textarea.vegaLitePreview {
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  box-shadow: 0 2px 4px #ccc;
-  position: absolute;
-  height: 25rem;
-  width: 30rem;
-  bottom: 5rem;
-  right: 2rem;
-  resize: vertical;
-  opacity: 1;
-  transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
-}
-textarea.vegaLitePreview.hidden {
-  opacity: 0;
-}
