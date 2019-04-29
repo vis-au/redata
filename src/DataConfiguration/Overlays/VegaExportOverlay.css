@@ -32,9 +32,4 @@
   height: 25rem;
   width: 30rem;
   resize: vertical;
-  opacity: 1;
-  transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
-}
-.vegaExport  textarea.vegaLitePreview.hidden {
-  opacity: 0;
 }

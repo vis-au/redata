@@ -5,12 +5,12 @@ import { Datasets } from 'vega-lite/build/src/spec/toplevel';
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
 import DataImportPanel from './Overlays/DataImportPanel';
+import VegaExportOverlay from './Overlays/VegaExportOverlay';
 import VegaInputOverlay from './Overlays/VegaInputOverlay';
 import DataFlowSidebar from './Sidebar/DataFlowSidebar';
 import DataFlowToolbar from './Toolbar/DataFlowToolbar';
 
 import './DataConfigurationView.css';
-import VegaExportOverlay from './Overlays/VegaExportOverlay';
 
 interface Props {
   datasets: GraphNode[];

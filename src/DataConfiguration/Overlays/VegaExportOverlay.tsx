@@ -102,11 +102,11 @@ export default class VegaExportOverlay extends React.Component<Props, State> {
     const isPreviewHidden = this.props.visible ? '' :  'hidden';
 
     return (
-      <div className="vegaExport">
+      <div className={ `vegaExport ${isPreviewHidden}` }>
         <h2 className="message">Select Datasets to export as Vega-lite schema:</h2>
         { this.renderDatasetSelection()}
         <textarea
-          className={ `vegaLitePreview ${isPreviewHidden}` }
+          className="vegaLitePreview"
           onChange={ () => null }
           value={ JSON.stringify(this.exportDataToVega(), null, 2) } />
       </div>
