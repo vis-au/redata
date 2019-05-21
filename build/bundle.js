@@ -51803,7 +51803,7 @@ class DataImporter {
             name = url.match(/\/(\w+)\.json/)[1];
         }
         else if (url.includes('.csv')) {
-            name = url.match(/\/(\w+)\.csv/)[1];
+            name = url.match(/(\w+)\.csv/)[1];
         }
         return name;
     }
@@ -52685,9 +52685,9 @@ exports.SpecCompiler = SpecCompiler;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const spec_1 = __webpack_require__(/*! vega-lite/build/src/spec */ "./node_modules/vega-lite/build/src/spec/index.js");
-const fielddef_1 = __webpack_require__(/*! vega-lite/build/src/fielddef */ "./node_modules/vega-lite/build/src/fielddef.js");
 const data_1 = __webpack_require__(/*! vega-lite/build/src/data */ "./node_modules/vega-lite/build/src/data.js");
 const concat_1 = __webpack_require__(/*! vega-lite/build/src/spec/concat */ "./node_modules/vega-lite/build/src/spec/concat.js");
+const channeldef_1 = __webpack_require__(/*! vega-lite/build/src/channeldef */ "./node_modules/vega-lite/build/src/channeldef.js");
 const InlineDatasetNode_1 = __webpack_require__(/*! ../DataModel/Datasets/InlineDatasetNode */ "./node_modules/toolkitmodel/dist/DataModel/Datasets/InlineDatasetNode.js");
 const NamedDataSourceNode_1 = __webpack_require__(/*! ../DataModel/Datasets/NamedDataSourceNode */ "./node_modules/toolkitmodel/dist/DataModel/Datasets/NamedDataSourceNode.js");
 const URLDatasetNode_1 = __webpack_require__(/*! ../DataModel/Datasets/URLDatasetNode */ "./node_modules/toolkitmodel/dist/DataModel/Datasets/URLDatasetNode.js");
@@ -52745,8 +52745,8 @@ class SpecParser {
         nonRepeatSubTemplates.forEach(childTemplate => {
             const repeatedFields = template.repeat.column.concat(template.repeat.row);
             childTemplate.encodings.forEach((value, key) => {
-                if (fielddef_1.isFieldDef(value)) {
-                    if (fielddef_1.isRepeatRef(value.field)) {
+                if (channeldef_1.isFieldDef(value)) {
+                    if (channeldef_1.isRepeatRef(value.field)) {
                         const index = Math.floor(Math.random() * repeatedFields.length);
                         const fieldRef = {
                             field: repeatedFields[index],
@@ -53790,7 +53790,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".vegaExport {\r\n  position: absolute;\r\n  right: 2rem;\r\n  bottom: 5em;\r\n  padding: 1rem 0.5rem;\r\n  background: #fff;\r\n  box-shadow: 0 2px 4px #ccc;\r\n}\r\n.vegaExport h2.message {\r\n  font-size: 16px;\r\n}\r\n.vegaExport p.noDataMessage {\r\n  font-size: 14px;\r\n  font-style: italic;\r\n  padding: 0.5rem 1rem 0.6rem;\r\n  border: 1px dashed #ccc;\r\n  border-radius: 2px;\r\n  color: #888;\r\n}\r\n.vegaExport .datasetSelection {\r\n  margin-bottom: 1rem;\r\n}\r\n.vegaExport .datasetSelection .datasetOption {\r\n  margin: 0.35rem 0;\r\n}\r\n.vegaExport .datasetSelection .datasetOption label {\r\n  margin-left: 1rem;\r\n}\r\n.vegaExport textarea.vegaLitePreview {\r\n  border: none;\r\n  border-radius: 2px;\r\n  height: 25rem;\r\n  width: 30rem;\r\n  resize: vertical;\r\n  opacity: 1;\r\n  transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;\r\n}\r\n.vegaExport  textarea.vegaLitePreview.hidden {\r\n  opacity: 0;\r\n}", ""]);
+exports.push([module.i, ".vegaExport {\r\n  position: absolute;\r\n  right: 2rem;\r\n  bottom: 5em;\r\n  padding: 1rem 0.5rem;\r\n  background: #fff;\r\n  box-shadow: 0 2px 4px #ccc;\r\n}\r\n.vegaExport h2.message {\r\n  font-size: 16px;\r\n}\r\n.vegaExport p.noDataMessage {\r\n  font-size: 14px;\r\n  font-style: italic;\r\n  padding: 0.5rem 1rem 0.6rem;\r\n  border: 1px dashed #ccc;\r\n  border-radius: 2px;\r\n  color: #888;\r\n}\r\n.vegaExport .datasetSelection {\r\n  margin-bottom: 1rem;\r\n}\r\n.vegaExport .datasetSelection .datasetOption {\r\n  margin: 0.35rem 0;\r\n}\r\n.vegaExport .datasetSelection .datasetOption label {\r\n  margin-left: 1rem;\r\n}\r\n.vegaExport textarea.vegaLitePreview {\r\n  border: none;\r\n  border-radius: 2px;\r\n  height: 25rem;\r\n  width: 30rem;\r\n  resize: vertical;\r\n}", ""]);
 
 // exports
 
@@ -53972,11 +53972,13 @@ exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-famil
 /*!*******************************************************!*\
   !*** ./node_modules/vega-lite/build/src/aggregate.js ***!
   \*******************************************************/
-/*! exports provided: AGGREGATE_OPS, isAggregateOp, COUNTING_OPS, isCountingAggregateOp, isMinMaxOp, SUM_OPS, SHARED_DOMAIN_OPS, SHARED_DOMAIN_OP_INDEX */
+/*! exports provided: isArgminDef, isArgmaxDef, AGGREGATE_OPS, isAggregateOp, COUNTING_OPS, isCountingAggregateOp, isMinMaxOp, SUM_OPS, SHARED_DOMAIN_OPS, SHARED_DOMAIN_OP_INDEX */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isArgminDef", function() { return isArgminDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isArgmaxDef", function() { return isArgmaxDef; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AGGREGATE_OPS", function() { return AGGREGATE_OPS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAggregateOp", function() { return isAggregateOp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COUNTING_OPS", function() { return COUNTING_OPS; });
@@ -54013,16 +54015,22 @@ const AGGREGATE_OP_INDEX = {
     variance: 1,
     variancep: 1
 };
+function isArgminDef(a) {
+    return !!a && !!a['argmin'];
+}
+function isArgmaxDef(a) {
+    return !!a && !!a['argmax'];
+}
 const AGGREGATE_OPS = Object(_util__WEBPACK_IMPORTED_MODULE_1__["flagKeys"])(AGGREGATE_OP_INDEX);
 function isAggregateOp(a) {
-    return !!AGGREGATE_OP_INDEX[a];
+    return Object(vega_util__WEBPACK_IMPORTED_MODULE_0__["isString"])(a) && !!AGGREGATE_OP_INDEX[a];
 }
 const COUNTING_OPS = ['count', 'valid', 'missing', 'distinct'];
 function isCountingAggregateOp(aggregate) {
-    return aggregate && Object(_util__WEBPACK_IMPORTED_MODULE_1__["contains"])(COUNTING_OPS, aggregate);
+    return aggregate && Object(vega_util__WEBPACK_IMPORTED_MODULE_0__["isString"])(aggregate) && Object(_util__WEBPACK_IMPORTED_MODULE_1__["contains"])(COUNTING_OPS, aggregate);
 }
 function isMinMaxOp(aggregate) {
-    return aggregate && Object(_util__WEBPACK_IMPORTED_MODULE_1__["contains"])(['min', 'max'], aggregate);
+    return aggregate && Object(vega_util__WEBPACK_IMPORTED_MODULE_0__["isString"])(aggregate) && Object(_util__WEBPACK_IMPORTED_MODULE_1__["contains"])(['min', 'max'], aggregate);
 }
 /** Additive-based aggregation operations.  These can be applied to stack. */
 const SUM_OPS = ['count', 'sum', 'distinct', 'valid', 'missing'];
@@ -54051,7 +54059,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoMaxBins", function() { return autoMaxBins; });
 /* harmony import */ var vega_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vega-util */ "./node_modules/vega-util/index.js");
 /* harmony import */ var _channel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel */ "./node_modules/vega-lite/build/src/channel.js");
-/* harmony import */ var _fielddef__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fielddef */ "./node_modules/vega-lite/build/src/fielddef.js");
+/* harmony import */ var _channeldef__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channeldef */ "./node_modules/vega-lite/build/src/channeldef.js");
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util */ "./node_modules/vega-lite/build/src/util.js");
 
 
@@ -54062,7 +54070,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 function binToString(bin) {
     if (Object(vega_util__WEBPACK_IMPORTED_MODULE_0__["isBoolean"])(bin)) {
-        bin = Object(_fielddef__WEBPACK_IMPORTED_MODULE_2__["normalizeBin"])(bin, undefined);
+        bin = Object(_channeldef__WEBPACK_IMPORTED_MODULE_2__["normalizeBin"])(bin, undefined);
     }
     return ('bin' +
         Object(_util__WEBPACK_IMPORTED_MODULE_3__["keys"])(bin)
@@ -54112,7 +54120,7 @@ function autoMaxBins(channel) {
 /*!*****************************************************!*\
   !*** ./node_modules/vega-lite/build/src/channel.js ***!
   \*****************************************************/
-/*! exports provided: ROW, COLUMN, FACET, X, Y, X2, Y2, LATITUDE, LONGITUDE, LATITUDE2, LONGITUDE2, COLOR, FILL, STROKE, SHAPE, SIZE, OPACITY, FILLOPACITY, STROKEOPACITY, STROKEWIDTH, TEXT, ORDER, DETAIL, KEY, TOOLTIP, HREF, isGeoPositionChannel, getPositionChannelFromLatLong, GEOPOSITION_CHANNEL_INDEX, GEOPOSITION_CHANNELS, isColorChannel, FACET_CHANNELS, CHANNELS, SINGLE_DEF_CHANNELS, SINGLE_DEF_UNIT_CHANNELS, isSingleDefUnitChannel, isChannel, isSecondaryRangeChannel, getMainRangeChannel, UNIT_CHANNELS, NONPOSITION_CHANNELS, POSITION_SCALE_CHANNELS, NONPOSITION_SCALE_CHANNELS, isNonPositionScaleChannel, supportLegend, SCALE_CHANNELS, isScaleChannel, supportMark, rangeType */
+/*! exports provided: ROW, COLUMN, FACET, X, Y, X2, Y2, LATITUDE, LONGITUDE, LATITUDE2, LONGITUDE2, COLOR, FILL, STROKE, SHAPE, SIZE, OPACITY, FILLOPACITY, STROKEOPACITY, STROKEWIDTH, TEXT, ORDER, DETAIL, KEY, TOOLTIP, HREF, isGeoPositionChannel, getPositionChannelFromLatLong, GEOPOSITION_CHANNEL_INDEX, GEOPOSITION_CHANNELS, isColorChannel, FACET_CHANNELS, CHANNELS, SINGLE_DEF_CHANNELS, SINGLE_DEF_UNIT_CHANNELS, isSingleDefUnitChannel, isChannel, SECONDARY_RANGE_CHANNEL, isSecondaryRangeChannel, getMainRangeChannel, UNIT_CHANNELS, NONPOSITION_CHANNELS, POSITION_SCALE_CHANNELS, NONPOSITION_SCALE_CHANNELS, isNonPositionScaleChannel, supportLegend, SCALE_CHANNELS, isScaleChannel, supportMark, rangeType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54154,6 +54162,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SINGLE_DEF_UNIT_CHANNELS", function() { return SINGLE_DEF_UNIT_CHANNELS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSingleDefUnitChannel", function() { return isSingleDefUnitChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isChannel", function() { return isChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SECONDARY_RANGE_CHANNEL", function() { return SECONDARY_RANGE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSecondaryRangeChannel", function() { return isSecondaryRangeChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMainRangeChannel", function() { return getMainRangeChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNIT_CHANNELS", function() { return UNIT_CHANNELS; });
@@ -54272,6 +54281,7 @@ function isSingleDefUnitChannel(str) {
 function isChannel(str) {
     return !!CHANNEL_INDEX[str];
 }
+const SECONDARY_RANGE_CHANNEL = ['x2', 'y2', 'latitude2', 'longitude2'];
 function isSecondaryRangeChannel(c) {
     const main = getMainRangeChannel(c);
     return main !== c;
@@ -54478,11 +54488,589 @@ function rangeType(channel) {
 
 /***/ }),
 
+/***/ "./node_modules/vega-lite/build/src/channeldef.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vega-lite/build/src/channeldef.js ***!
+  \********************************************************/
+/*! exports provided: isConditionalSelection, isRepeatRef, toFieldDefBase, isSortableFieldDef, isConditionalDef, hasConditionalFieldDef, hasConditionalValueDef, isFieldDef, isTypedFieldDef, isStringFieldDef, isValueDef, isScaleFieldDef, isPositionFieldDef, isMarkPropFieldDef, isTextFieldDef, vgField, isDiscrete, isContinuous, isCount, verbalTitleFormatter, functionalTitleFormatter, defaultTitleFormatter, setTitleFormatter, resetTitleFormatter, title, getGuide, defaultTitle, format, defaultType, getFieldDef, getTypedFieldDef, normalize, normalizeFieldDef, normalizeBin, channelCompatibility, isNumberFieldDef, isTimeFormatFieldDef, isTimeFieldDef, valueExpr, valueArray, binRequiresRange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isConditionalSelection", function() { return isConditionalSelection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isRepeatRef", function() { return isRepeatRef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toFieldDefBase", function() { return toFieldDefBase; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSortableFieldDef", function() { return isSortableFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isConditionalDef", function() { return isConditionalDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasConditionalFieldDef", function() { return hasConditionalFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasConditionalValueDef", function() { return hasConditionalValueDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFieldDef", function() { return isFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTypedFieldDef", function() { return isTypedFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isStringFieldDef", function() { return isStringFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValueDef", function() { return isValueDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isScaleFieldDef", function() { return isScaleFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPositionFieldDef", function() { return isPositionFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isMarkPropFieldDef", function() { return isMarkPropFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTextFieldDef", function() { return isTextFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "vgField", function() { return vgField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDiscrete", function() { return isDiscrete; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isContinuous", function() { return isContinuous; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isCount", function() { return isCount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "verbalTitleFormatter", function() { return verbalTitleFormatter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "functionalTitleFormatter", function() { return functionalTitleFormatter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTitleFormatter", function() { return defaultTitleFormatter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTitleFormatter", function() { return setTitleFormatter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetTitleFormatter", function() { return resetTitleFormatter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "title", function() { return title; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getGuide", function() { return getGuide; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTitle", function() { return defaultTitle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "format", function() { return format; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultType", function() { return defaultType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFieldDef", function() { return getFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTypedFieldDef", function() { return getTypedFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalizeFieldDef", function() { return normalizeFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalizeBin", function() { return normalizeBin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "channelCompatibility", function() { return channelCompatibility; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumberFieldDef", function() { return isNumberFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTimeFormatFieldDef", function() { return isTimeFormatFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTimeFieldDef", function() { return isTimeFieldDef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "valueExpr", function() { return valueExpr; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "valueArray", function() { return valueArray; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "binRequiresRange", function() { return binRequiresRange; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var vega_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vega-util */ "./node_modules/vega-util/index.js");
+/* harmony import */ var _aggregate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./aggregate */ "./node_modules/vega-lite/build/src/aggregate.js");
+/* harmony import */ var _bin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bin */ "./node_modules/vega-lite/build/src/bin.js");
+/* harmony import */ var _channel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./channel */ "./node_modules/vega-lite/build/src/channel.js");
+/* harmony import */ var _datetime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./datetime */ "./node_modules/vega-lite/build/src/datetime.js");
+/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./log */ "./node_modules/vega-lite/build/src/log.js");
+/* harmony import */ var _spec_facet__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./spec/facet */ "./node_modules/vega-lite/build/src/spec/facet.js");
+/* harmony import */ var _timeunit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./timeunit */ "./node_modules/vega-lite/build/src/timeunit.js");
+/* harmony import */ var _type__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./type */ "./node_modules/vega-lite/build/src/type.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./util */ "./node_modules/vega-lite/build/src/util.js");
+
+// Declaration and utility for variants of a field definition object
+
+
+
+
+
+
+
+
+
+
+function isConditionalSelection(c) {
+    return c['selection'];
+}
+function isRepeatRef(field) {
+    return field && !Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(field) && 'repeat' in field;
+}
+function toFieldDefBase(fieldDef) {
+    const { field, timeUnit, bin, aggregate } = fieldDef;
+    return Object.assign({}, (timeUnit ? { timeUnit } : {}), (bin ? { bin } : {}), (aggregate ? { aggregate } : {}), { field });
+}
+function isSortableFieldDef(fieldDef) {
+    return isTypedFieldDef(fieldDef) && !!fieldDef['sort'];
+}
+function isConditionalDef(channelDef) {
+    return !!channelDef && !!channelDef.condition;
+}
+/**
+ * Return if a channelDef is a ConditionalValueDef with ConditionFieldDef
+ */
+function hasConditionalFieldDef(channelDef) {
+    return !!channelDef && !!channelDef.condition && !Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isArray"])(channelDef.condition) && isFieldDef(channelDef.condition);
+}
+function hasConditionalValueDef(channelDef) {
+    return !!channelDef && !!channelDef.condition && (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isArray"])(channelDef.condition) || isValueDef(channelDef.condition));
+}
+function isFieldDef(channelDef) {
+    return !!channelDef && (!!channelDef['field'] || channelDef['aggregate'] === 'count');
+}
+function isTypedFieldDef(channelDef) {
+    return !!channelDef && ((!!channelDef['field'] && !!channelDef['type']) || channelDef['aggregate'] === 'count');
+}
+function isStringFieldDef(channelDef) {
+    return isFieldDef(channelDef) && Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(channelDef.field);
+}
+function isValueDef(channelDef) {
+    return channelDef && 'value' in channelDef && channelDef['value'] !== undefined;
+}
+function isScaleFieldDef(channelDef) {
+    return !!channelDef && (!!channelDef['scale'] || !!channelDef['sort']);
+}
+function isPositionFieldDef(channelDef) {
+    return !!channelDef && (!!channelDef['axis'] || !!channelDef['stack'] || !!channelDef['impute']);
+}
+function isMarkPropFieldDef(channelDef) {
+    return !!channelDef && !!channelDef['legend'];
+}
+function isTextFieldDef(channelDef) {
+    return !!channelDef && !!channelDef['format'];
+}
+function isOpFieldDef(fieldDef) {
+    return !!fieldDef['op'];
+}
+/**
+ * Get a Vega field reference from a Vega-Lite field def.
+ */
+function vgField(fieldDef, opt = {}) {
+    let field = fieldDef.field;
+    const prefix = opt.prefix;
+    let suffix = opt.suffix;
+    let argAccessor = ''; // for accessing argmin/argmax field at the end without getting escaped
+    if (isCount(fieldDef)) {
+        field = Object(_util__WEBPACK_IMPORTED_MODULE_10__["internalField"])('count');
+    }
+    else {
+        let fn;
+        if (!opt.nofn) {
+            if (isOpFieldDef(fieldDef)) {
+                fn = fieldDef.op;
+            }
+            else {
+                const { bin, aggregate, timeUnit } = fieldDef;
+                if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(bin)) {
+                    fn = Object(_bin__WEBPACK_IMPORTED_MODULE_3__["binToString"])(bin);
+                    suffix = (opt.binSuffix || '') + (opt.suffix || '');
+                }
+                else if (aggregate) {
+                    if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgmaxDef"])(aggregate)) {
+                        argAccessor = `.${field}`;
+                        field = `argmax_${aggregate.argmax}`;
+                    }
+                    else if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgminDef"])(aggregate)) {
+                        argAccessor = `.${field}`;
+                        field = `argmin_${aggregate.argmin}`;
+                    }
+                    else {
+                        fn = String(aggregate);
+                    }
+                }
+                else if (timeUnit) {
+                    fn = String(timeUnit);
+                }
+            }
+        }
+        if (fn) {
+            field = field ? `${fn}_${field}` : fn;
+        }
+    }
+    if (suffix) {
+        field = `${field}_${suffix}`;
+    }
+    if (prefix) {
+        field = `${prefix}_${field}`;
+    }
+    if (opt.forAs) {
+        return field;
+    }
+    else if (opt.expr) {
+        // Expression to access flattened field. No need to escape dots.
+        return Object(_util__WEBPACK_IMPORTED_MODULE_10__["flatAccessWithDatum"])(field, opt.expr) + argAccessor;
+    }
+    else {
+        // We flattened all fields so paths should have become dot.
+        return Object(_util__WEBPACK_IMPORTED_MODULE_10__["replacePathInField"])(field) + argAccessor;
+    }
+}
+function isDiscrete(fieldDef) {
+    switch (fieldDef.type) {
+        case 'nominal':
+        case 'ordinal':
+        case 'geojson':
+            return true;
+        case 'quantitative':
+            return !!fieldDef.bin;
+        case 'temporal':
+            return false;
+    }
+    throw new Error(_log__WEBPACK_IMPORTED_MODULE_6__["message"].invalidFieldType(fieldDef.type));
+}
+function isContinuous(fieldDef) {
+    return !isDiscrete(fieldDef);
+}
+function isCount(fieldDef) {
+    return fieldDef.aggregate === 'count';
+}
+function verbalTitleFormatter(fieldDef, config) {
+    const { field, bin, timeUnit, aggregate } = fieldDef;
+    if (aggregate === 'count') {
+        return config.countTitle;
+    }
+    else if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(bin)) {
+        return `${field} (binned)`;
+    }
+    else if (timeUnit) {
+        const units = Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["getTimeUnitParts"])(timeUnit).join('-');
+        return `${field} (${units})`;
+    }
+    else if (aggregate) {
+        if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgmaxDef"])(aggregate)) {
+            return `${field} for max ${aggregate.argmax}`;
+        }
+        else if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgminDef"])(aggregate)) {
+            return `${field} for min ${aggregate.argmin}`;
+        }
+        else {
+            return `${Object(_util__WEBPACK_IMPORTED_MODULE_10__["titlecase"])(aggregate)} of ${field}`;
+        }
+    }
+    return field;
+}
+function functionalTitleFormatter(fieldDef, config) {
+    const { aggregate, bin, timeUnit, field } = fieldDef;
+    if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgmaxDef"])(aggregate)) {
+        return `${field} for argmax(${aggregate.argmax})`;
+    }
+    else if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgminDef"])(aggregate)) {
+        return `${field} for argmin(${aggregate.argmin})`;
+    }
+    const fn = aggregate || timeUnit || (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(bin) && 'bin');
+    if (fn) {
+        return fn.toUpperCase() + '(' + field + ')';
+    }
+    else {
+        return field;
+    }
+}
+const defaultTitleFormatter = (fieldDef, config) => {
+    switch (config.fieldTitle) {
+        case 'plain':
+            return fieldDef.field;
+        case 'functional':
+            return functionalTitleFormatter(fieldDef, config);
+        default:
+            return verbalTitleFormatter(fieldDef, config);
+    }
+};
+let titleFormatter = defaultTitleFormatter;
+function setTitleFormatter(formatter) {
+    titleFormatter = formatter;
+}
+function resetTitleFormatter() {
+    setTitleFormatter(defaultTitleFormatter);
+}
+function title(fieldDef, config, { allowDisabling, includeDefault = true }) {
+    const guide = getGuide(fieldDef) || {};
+    const guideTitle = guide.title;
+    const def = includeDefault ? defaultTitle(fieldDef, config) : undefined;
+    if (allowDisabling) {
+        return Object(_util__WEBPACK_IMPORTED_MODULE_10__["getFirstDefined"])(guideTitle, fieldDef.title, def);
+    }
+    else {
+        return guideTitle || fieldDef.title || def;
+    }
+}
+function getGuide(fieldDef) {
+    if (isPositionFieldDef(fieldDef) && fieldDef.axis) {
+        return fieldDef.axis;
+    }
+    else if (isMarkPropFieldDef(fieldDef) && fieldDef.legend) {
+        return fieldDef.legend;
+    }
+    else if (Object(_spec_facet__WEBPACK_IMPORTED_MODULE_7__["isFacetFieldDef"])(fieldDef) && fieldDef.header) {
+        return fieldDef.header;
+    }
+    return undefined;
+}
+function defaultTitle(fieldDef, config) {
+    return titleFormatter(fieldDef, config);
+}
+function format(fieldDef) {
+    if (isTextFieldDef(fieldDef) && fieldDef.format) {
+        return fieldDef.format;
+    }
+    else {
+        const guide = getGuide(fieldDef) || {};
+        return guide.format;
+    }
+}
+function defaultType(fieldDef, channel) {
+    if (fieldDef.timeUnit) {
+        return 'temporal';
+    }
+    if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin)) {
+        return 'quantitative';
+    }
+    switch (Object(_channel__WEBPACK_IMPORTED_MODULE_4__["rangeType"])(channel)) {
+        case 'continuous':
+            return 'quantitative';
+        case 'discrete':
+            return 'nominal';
+        case 'flexible': // color
+            return 'nominal';
+        default:
+            return 'quantitative';
+    }
+}
+/**
+ * Returns the fieldDef -- either from the outer channelDef or from the condition of channelDef.
+ * @param channelDef
+ */
+function getFieldDef(channelDef) {
+    if (isFieldDef(channelDef)) {
+        return channelDef;
+    }
+    else if (hasConditionalFieldDef(channelDef)) {
+        return channelDef.condition;
+    }
+    return undefined;
+}
+function getTypedFieldDef(channelDef) {
+    if (isFieldDef(channelDef)) {
+        return channelDef;
+    }
+    else if (hasConditionalFieldDef(channelDef)) {
+        return channelDef.condition;
+    }
+    return undefined;
+}
+/**
+ * Convert type to full, lowercase type, or augment the fieldDef with a default type if missing.
+ */
+function normalize(channelDef, channel) {
+    if (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(channelDef) || Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isNumber"])(channelDef) || Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isBoolean"])(channelDef)) {
+        const primitiveType = Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(channelDef) ? 'string' : Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isNumber"])(channelDef) ? 'number' : 'boolean';
+        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].primitiveChannelDef(channel, primitiveType, channelDef));
+        return { value: channelDef };
+    }
+    // If a fieldDef contains a field, we need type.
+    if (isFieldDef(channelDef)) {
+        return normalizeFieldDef(channelDef, channel);
+    }
+    else if (hasConditionalFieldDef(channelDef)) {
+        return Object.assign({}, channelDef, { 
+            // Need to cast as normalizeFieldDef normally return FieldDef, but here we know that it is definitely Condition<FieldDef>
+            condition: normalizeFieldDef(channelDef.condition, channel) });
+    }
+    return channelDef;
+}
+function normalizeFieldDef(fieldDef, channel) {
+    const { aggregate, timeUnit, bin } = fieldDef;
+    // Drop invalid aggregate
+    if (aggregate && !Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isAggregateOp"])(aggregate) && !Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgmaxDef"])(aggregate) && !Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isArgminDef"])(aggregate)) {
+        const { aggregate: _ } = fieldDef, fieldDefWithoutAggregate = tslib__WEBPACK_IMPORTED_MODULE_0__["__rest"](fieldDef, ["aggregate"]);
+        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].invalidAggregate(aggregate));
+        fieldDef = fieldDefWithoutAggregate;
+    }
+    // Normalize Time Unit
+    if (timeUnit) {
+        fieldDef = Object.assign({}, fieldDef, { timeUnit: Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["normalizeTimeUnit"])(timeUnit) });
+    }
+    // Normalize bin
+    if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(bin)) {
+        fieldDef = Object.assign({}, fieldDef, { bin: normalizeBin(bin, channel) });
+    }
+    if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinned"])(bin) && !Object(_util__WEBPACK_IMPORTED_MODULE_10__["contains"])(_channel__WEBPACK_IMPORTED_MODULE_4__["POSITION_SCALE_CHANNELS"], channel)) {
+        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](`Channel ${channel} should not be used with "binned" bin`);
+    }
+    // Normalize Type
+    if (isTypedFieldDef(fieldDef)) {
+        const { type } = fieldDef;
+        const fullType = Object(_type__WEBPACK_IMPORTED_MODULE_9__["getFullName"])(type);
+        if (type !== fullType) {
+            // convert short type to full type
+            fieldDef = Object.assign({}, fieldDef, { type: fullType });
+        }
+        if (type !== 'quantitative') {
+            if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isCountingAggregateOp"])(aggregate)) {
+                _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].invalidFieldTypeForCountAggregate(type, aggregate));
+                fieldDef = Object.assign({}, fieldDef, { type: 'quantitative' });
+            }
+        }
+    }
+    else if (!Object(_channel__WEBPACK_IMPORTED_MODULE_4__["isSecondaryRangeChannel"])(channel)) {
+        // If type is empty / invalid, then augment with default type
+        const newType = defaultType(fieldDef, channel);
+        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].missingFieldType(channel, newType));
+        fieldDef = Object.assign({}, fieldDef, { type: newType });
+    }
+    if (isTypedFieldDef(fieldDef)) {
+        const { compatible, warning } = channelCompatibility(fieldDef, channel);
+        if (!compatible) {
+            _log__WEBPACK_IMPORTED_MODULE_6__["warn"](warning);
+        }
+    }
+    return fieldDef;
+}
+function normalizeBin(bin, channel) {
+    if (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isBoolean"])(bin)) {
+        return { maxbins: Object(_bin__WEBPACK_IMPORTED_MODULE_3__["autoMaxBins"])(channel) };
+    }
+    else if (bin === 'binned') {
+        return {
+            binned: true
+        };
+    }
+    else if (!bin.maxbins && !bin.step) {
+        return Object.assign({}, bin, { maxbins: Object(_bin__WEBPACK_IMPORTED_MODULE_3__["autoMaxBins"])(channel) });
+    }
+    else {
+        return bin;
+    }
+}
+const COMPATIBLE = { compatible: true };
+function channelCompatibility(fieldDef, channel) {
+    const type = fieldDef.type;
+    if (type === 'geojson' && channel !== 'shape') {
+        return {
+            compatible: false,
+            warning: `Channel ${channel} should not be used with a geojson data.`
+        };
+    }
+    switch (channel) {
+        case 'row':
+        case 'column':
+        case 'facet':
+            if (isContinuous(fieldDef)) {
+                return {
+                    compatible: false,
+                    warning: _log__WEBPACK_IMPORTED_MODULE_6__["message"].facetChannelShouldBeDiscrete(channel)
+                };
+            }
+            return COMPATIBLE;
+        case 'x':
+        case 'y':
+        case 'color':
+        case 'fill':
+        case 'stroke':
+        case 'text':
+        case 'detail':
+        case 'key':
+        case 'tooltip':
+        case 'href':
+            return COMPATIBLE;
+        case 'longitude':
+        case 'longitude2':
+        case 'latitude':
+        case 'latitude2':
+            if (type !== _type__WEBPACK_IMPORTED_MODULE_9__["QUANTITATIVE"]) {
+                return {
+                    compatible: false,
+                    warning: `Channel ${channel} should be used with a quantitative field only, not ${fieldDef.type} field.`
+                };
+            }
+            return COMPATIBLE;
+        case 'opacity':
+        case 'fillOpacity':
+        case 'strokeOpacity':
+        case 'strokeWidth':
+        case 'size':
+        case 'x2':
+        case 'y2':
+            if (type === 'nominal' && !fieldDef['sort']) {
+                return {
+                    compatible: false,
+                    warning: `Channel ${channel} should not be used with an unsorted discrete field.`
+                };
+            }
+            return COMPATIBLE;
+        case 'shape':
+            if (!Object(_util__WEBPACK_IMPORTED_MODULE_10__["contains"])(['ordinal', 'nominal', 'geojson'], fieldDef.type)) {
+                return {
+                    compatible: false,
+                    warning: 'Shape channel should be used with only either discrete or geojson data.'
+                };
+            }
+            return COMPATIBLE;
+        case 'order':
+            if (fieldDef.type === 'nominal' && !('sort' in fieldDef)) {
+                return {
+                    compatible: false,
+                    warning: `Channel order is inappropriate for nominal field, which has no inherent order.`
+                };
+            }
+            return COMPATIBLE;
+    }
+    throw new Error('channelCompatability not implemented for channel ' + channel);
+}
+function isNumberFieldDef(fieldDef) {
+    return fieldDef.type === 'quantitative' || Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin);
+}
+/**
+ * Check if the field def uses a time format or does not use any format but is temporal (this does not cover field defs that are temporal but use a number format).
+ */
+function isTimeFormatFieldDef(fieldDef) {
+    const formatType = (isPositionFieldDef(fieldDef) && fieldDef.axis && fieldDef.axis.formatType) ||
+        (isMarkPropFieldDef(fieldDef) && fieldDef.legend && fieldDef.legend.formatType) ||
+        (isTextFieldDef(fieldDef) && fieldDef.formatType);
+    return formatType === 'time' || (!formatType && isTimeFieldDef(fieldDef));
+}
+/**
+ * Check if field def has tye `temporal`. If you want to also cover field defs that use a time format, use `isTimeFormatFieldDef`.
+ */
+function isTimeFieldDef(fieldDef) {
+    return fieldDef.type === 'temporal' || !!fieldDef.timeUnit;
+}
+/**
+ * Getting a value associated with a fielddef.
+ * Convert the value to Vega expression if applicable (for datetime object, or string if the field def is temporal or has timeUnit)
+ */
+function valueExpr(v, { timeUnit, type, time, undefinedIfExprNotRequired }) {
+    let expr;
+    if (Object(_datetime__WEBPACK_IMPORTED_MODULE_5__["isDateTime"])(v)) {
+        expr = Object(_datetime__WEBPACK_IMPORTED_MODULE_5__["dateTimeExpr"])(v, true);
+    }
+    else if (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(v) || Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isNumber"])(v)) {
+        if (timeUnit || type === 'temporal') {
+            if (Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["isLocalSingleTimeUnit"])(timeUnit)) {
+                expr = Object(_datetime__WEBPACK_IMPORTED_MODULE_5__["dateTimeExpr"])({ [timeUnit]: v }, true);
+            }
+            else if (Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["isUtcSingleTimeUnit"])(timeUnit)) {
+                // FIXME is this really correct?
+                expr = valueExpr(v, { timeUnit: Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["getLocalTimeUnit"])(timeUnit) });
+            }
+            else {
+                // just pass the string to date function (which will call JS Date.parse())
+                expr = `datetime(${JSON.stringify(v)})`;
+            }
+        }
+    }
+    if (expr) {
+        return time ? `time(${expr})` : expr;
+    }
+    // number or boolean or normal string
+    return undefinedIfExprNotRequired ? undefined : JSON.stringify(v);
+}
+/**
+ * Standardize value array -- convert each value to Vega expression if applicable
+ */
+function valueArray(fieldDef, values) {
+    const { timeUnit, type } = fieldDef;
+    return values.map(v => {
+        const expr = valueExpr(v, { timeUnit, type, undefinedIfExprNotRequired: true });
+        // return signal for the expression if we need an expression
+        if (expr !== undefined) {
+            return { signal: expr };
+        }
+        // otherwise just return the original value
+        return v;
+    });
+}
+/**
+ * Checks whether a fieldDef for a particular channel requires a computed bin range.
+ */
+function binRequiresRange(fieldDef, channel) {
+    if (!Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin)) {
+        console.warn('Only use this method with binned field defs');
+        return false;
+    }
+    // We need the range only when the user explicitly forces a binned field to be use discrete scale. In this case, bin range is used in axis and legend labels.
+    // We could check whether the axis or legend exists (not disabled) but that seems overkill.
+    return Object(_channel__WEBPACK_IMPORTED_MODULE_4__["isScaleChannel"])(channel) && Object(_util__WEBPACK_IMPORTED_MODULE_10__["contains"])(['ordinal', 'nominal'], fieldDef.type);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/vega-lite/build/src/data.js":
 /*!**************************************************!*\
   !*** ./node_modules/vega-lite/build/src/data.js ***!
   \**************************************************/
-/*! exports provided: isUrlData, isInlineData, isNamedData, MAIN, RAW */
+/*! exports provided: isUrlData, isInlineData, isNamedData, isGenerator, isSequenceGenerator, isSphereGenerator, isGraticuleGenerator, MAIN, RAW */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54490,6 +55078,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isUrlData", function() { return isUrlData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isInlineData", function() { return isInlineData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNamedData", function() { return isNamedData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isGenerator", function() { return isGenerator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSequenceGenerator", function() { return isSequenceGenerator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSphereGenerator", function() { return isSphereGenerator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isGraticuleGenerator", function() { return isGraticuleGenerator; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MAIN", function() { return MAIN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RAW", function() { return RAW; });
 function isUrlData(data) {
@@ -54500,6 +55092,18 @@ function isInlineData(data) {
 }
 function isNamedData(data) {
     return !!data['name'] && !isUrlData(data) && !isInlineData(data);
+}
+function isGenerator(data) {
+    return data && (isSequenceGenerator(data) || isSphereGenerator(data) || isGraticuleGenerator(data));
+}
+function isSequenceGenerator(data) {
+    return !!data['sequence'];
+}
+function isSphereGenerator(data) {
+    return !!data['sphere'];
+}
+function isGraticuleGenerator(data) {
+    return !!data['graticule'];
 }
 const MAIN = 'main';
 const RAW = 'raw';
@@ -54679,539 +55283,6 @@ function dateTimeExpr(d, normalize = false) {
     else {
         return `datetime(${units.join(', ')})`;
     }
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/vega-lite/build/src/fielddef.js":
-/*!******************************************************!*\
-  !*** ./node_modules/vega-lite/build/src/fielddef.js ***!
-  \******************************************************/
-/*! exports provided: isConditionalSelection, isRepeatRef, toFieldDefBase, isSortableFieldDef, isConditionalDef, hasConditionalFieldDef, hasConditionalValueDef, isFieldDef, isTypedFieldDef, isStringFieldDef, isValueDef, isScaleFieldDef, isPositionFieldDef, isMarkPropFieldDef, isTextFieldDef, vgField, isDiscrete, isContinuous, isCount, verbalTitleFormatter, functionalTitleFormatter, defaultTitleFormatter, setTitleFormatter, resetTitleFormatter, title, getGuide, defaultTitle, format, defaultType, getFieldDef, getTypedFieldDef, normalize, normalizeFieldDef, normalizeBin, channelCompatibility, isNumberFieldDef, isTimeFieldDef, valueExpr, valueArray, binRequiresRange */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isConditionalSelection", function() { return isConditionalSelection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isRepeatRef", function() { return isRepeatRef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toFieldDefBase", function() { return toFieldDefBase; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSortableFieldDef", function() { return isSortableFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isConditionalDef", function() { return isConditionalDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasConditionalFieldDef", function() { return hasConditionalFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasConditionalValueDef", function() { return hasConditionalValueDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFieldDef", function() { return isFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTypedFieldDef", function() { return isTypedFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isStringFieldDef", function() { return isStringFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValueDef", function() { return isValueDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isScaleFieldDef", function() { return isScaleFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPositionFieldDef", function() { return isPositionFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isMarkPropFieldDef", function() { return isMarkPropFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTextFieldDef", function() { return isTextFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "vgField", function() { return vgField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDiscrete", function() { return isDiscrete; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isContinuous", function() { return isContinuous; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isCount", function() { return isCount; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "verbalTitleFormatter", function() { return verbalTitleFormatter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "functionalTitleFormatter", function() { return functionalTitleFormatter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTitleFormatter", function() { return defaultTitleFormatter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTitleFormatter", function() { return setTitleFormatter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetTitleFormatter", function() { return resetTitleFormatter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "title", function() { return title; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getGuide", function() { return getGuide; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTitle", function() { return defaultTitle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "format", function() { return format; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultType", function() { return defaultType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFieldDef", function() { return getFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTypedFieldDef", function() { return getTypedFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalizeFieldDef", function() { return normalizeFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalizeBin", function() { return normalizeBin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "channelCompatibility", function() { return channelCompatibility; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumberFieldDef", function() { return isNumberFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTimeFieldDef", function() { return isTimeFieldDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "valueExpr", function() { return valueExpr; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "valueArray", function() { return valueArray; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "binRequiresRange", function() { return binRequiresRange; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var vega_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vega-util */ "./node_modules/vega-util/index.js");
-/* harmony import */ var _aggregate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./aggregate */ "./node_modules/vega-lite/build/src/aggregate.js");
-/* harmony import */ var _bin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bin */ "./node_modules/vega-lite/build/src/bin.js");
-/* harmony import */ var _channel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./channel */ "./node_modules/vega-lite/build/src/channel.js");
-/* harmony import */ var _datetime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./datetime */ "./node_modules/vega-lite/build/src/datetime.js");
-/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./log */ "./node_modules/vega-lite/build/src/log.js");
-/* harmony import */ var _spec_facet__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./spec/facet */ "./node_modules/vega-lite/build/src/spec/facet.js");
-/* harmony import */ var _timeunit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./timeunit */ "./node_modules/vega-lite/build/src/timeunit.js");
-/* harmony import */ var _type__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./type */ "./node_modules/vega-lite/build/src/type.js");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./util */ "./node_modules/vega-lite/build/src/util.js");
-
-
-
-
-
-
-
-
-
-
-
-function isConditionalSelection(c) {
-    return c['selection'];
-}
-function isRepeatRef(field) {
-    return field && !Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(field) && 'repeat' in field;
-}
-function toFieldDefBase(fieldDef) {
-    const { field, timeUnit, bin, aggregate } = fieldDef;
-    return Object.assign({}, (timeUnit ? { timeUnit } : {}), (bin ? { bin } : {}), (aggregate ? { aggregate } : {}), { field });
-}
-function isSortableFieldDef(fieldDef) {
-    return isTypedFieldDef(fieldDef) && !!fieldDef['sort'];
-}
-function isConditionalDef(channelDef) {
-    return !!channelDef && !!channelDef.condition;
-}
-/**
- * Return if a channelDef is a ConditionalValueDef with ConditionFieldDef
- */
-function hasConditionalFieldDef(channelDef) {
-    return !!channelDef && !!channelDef.condition && !Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isArray"])(channelDef.condition) && isFieldDef(channelDef.condition);
-}
-function hasConditionalValueDef(channelDef) {
-    return !!channelDef && !!channelDef.condition && (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isArray"])(channelDef.condition) || isValueDef(channelDef.condition));
-}
-function isFieldDef(channelDef) {
-    return !!channelDef && (!!channelDef['field'] || channelDef['aggregate'] === 'count');
-}
-function isTypedFieldDef(channelDef) {
-    return !!channelDef && ((!!channelDef['field'] && !!channelDef['type']) || channelDef['aggregate'] === 'count');
-}
-function isStringFieldDef(channelDef) {
-    return isFieldDef(channelDef) && Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(channelDef.field);
-}
-function isValueDef(channelDef) {
-    return channelDef && 'value' in channelDef && channelDef['value'] !== undefined;
-}
-function isScaleFieldDef(channelDef) {
-    return !!channelDef && (!!channelDef['scale'] || !!channelDef['sort']);
-}
-function isPositionFieldDef(channelDef) {
-    return !!channelDef && (!!channelDef['axis'] || !!channelDef['stack'] || !!channelDef['impute']);
-}
-function isMarkPropFieldDef(channelDef) {
-    return !!channelDef && !!channelDef['legend'];
-}
-function isTextFieldDef(channelDef) {
-    return !!channelDef && !!channelDef['format'];
-}
-function isOpFieldDef(fieldDef) {
-    return !!fieldDef['op'];
-}
-/**
- * Get a Vega field reference from a Vega-Lite field def.
- */
-function vgField(fieldDef, opt = {}) {
-    let field = fieldDef.field;
-    const prefix = opt.prefix;
-    let suffix = opt.suffix;
-    if (isCount(fieldDef)) {
-        field = Object(_util__WEBPACK_IMPORTED_MODULE_10__["internalField"])('count');
-    }
-    else {
-        let fn;
-        if (!opt.nofn) {
-            if (isOpFieldDef(fieldDef)) {
-                fn = fieldDef.op;
-            }
-            else if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin)) {
-                fn = Object(_bin__WEBPACK_IMPORTED_MODULE_3__["binToString"])(fieldDef.bin);
-                suffix = (opt.binSuffix || '') + (opt.suffix || '');
-            }
-            else if (fieldDef.aggregate) {
-                fn = String(fieldDef.aggregate);
-            }
-            else if (fieldDef.timeUnit) {
-                fn = String(fieldDef.timeUnit);
-            }
-        }
-        if (fn) {
-            field = field ? `${fn}_${field}` : fn;
-        }
-    }
-    if (suffix) {
-        field = `${field}_${suffix}`;
-    }
-    if (prefix) {
-        field = `${prefix}_${field}`;
-    }
-    if (opt.forAs) {
-        return field;
-    }
-    else if (opt.expr) {
-        // Expression to access flattened field. No need to escape dots.
-        return Object(_util__WEBPACK_IMPORTED_MODULE_10__["flatAccessWithDatum"])(field, opt.expr);
-    }
-    else {
-        // We flattened all fields so paths should have become dot.
-        return Object(_util__WEBPACK_IMPORTED_MODULE_10__["replacePathInField"])(field);
-    }
-}
-function isDiscrete(fieldDef) {
-    switch (fieldDef.type) {
-        case 'nominal':
-        case 'ordinal':
-        case 'geojson':
-            return true;
-        case 'quantitative':
-            return !!fieldDef.bin;
-        case 'temporal':
-            return false;
-    }
-    throw new Error(_log__WEBPACK_IMPORTED_MODULE_6__["message"].invalidFieldType(fieldDef.type));
-}
-function isContinuous(fieldDef) {
-    return !isDiscrete(fieldDef);
-}
-function isCount(fieldDef) {
-    return fieldDef.aggregate === 'count';
-}
-function verbalTitleFormatter(fieldDef, config) {
-    const { field: field, bin, timeUnit, aggregate } = fieldDef;
-    if (aggregate === 'count') {
-        return config.countTitle;
-    }
-    else if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(bin)) {
-        return `${field} (binned)`;
-    }
-    else if (timeUnit) {
-        const units = Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["getTimeUnitParts"])(timeUnit).join('-');
-        return `${field} (${units})`;
-    }
-    else if (aggregate) {
-        return `${Object(_util__WEBPACK_IMPORTED_MODULE_10__["titlecase"])(aggregate)} of ${field}`;
-    }
-    return field;
-}
-function functionalTitleFormatter(fieldDef, config) {
-    const fn = fieldDef.aggregate || fieldDef.timeUnit || (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin) && 'bin');
-    if (fn) {
-        return fn.toUpperCase() + '(' + fieldDef.field + ')';
-    }
-    else {
-        return fieldDef.field;
-    }
-}
-const defaultTitleFormatter = (fieldDef, config) => {
-    switch (config.fieldTitle) {
-        case 'plain':
-            return fieldDef.field;
-        case 'functional':
-            return functionalTitleFormatter(fieldDef, config);
-        default:
-            return verbalTitleFormatter(fieldDef, config);
-    }
-};
-let titleFormatter = defaultTitleFormatter;
-function setTitleFormatter(formatter) {
-    titleFormatter = formatter;
-}
-function resetTitleFormatter() {
-    setTitleFormatter(defaultTitleFormatter);
-}
-function title(fieldDef, config, { allowDisabling, includeDefault = true }) {
-    const guide = getGuide(fieldDef) || {};
-    const guideTitle = guide.title;
-    const def = includeDefault ? defaultTitle(fieldDef, config) : undefined;
-    if (allowDisabling) {
-        return Object(_util__WEBPACK_IMPORTED_MODULE_10__["getFirstDefined"])(guideTitle, fieldDef.title, def);
-    }
-    else {
-        return guideTitle || fieldDef.title || def;
-    }
-}
-function getGuide(fieldDef) {
-    if (isPositionFieldDef(fieldDef) && fieldDef.axis) {
-        return fieldDef.axis;
-    }
-    else if (isMarkPropFieldDef(fieldDef) && fieldDef.legend) {
-        return fieldDef.legend;
-    }
-    else if (Object(_spec_facet__WEBPACK_IMPORTED_MODULE_7__["isFacetFieldDef"])(fieldDef) && fieldDef.header) {
-        return fieldDef.header;
-    }
-    return undefined;
-}
-function defaultTitle(fieldDef, config) {
-    return titleFormatter(fieldDef, config);
-}
-function format(fieldDef) {
-    if (isTextFieldDef(fieldDef) && fieldDef.format) {
-        return fieldDef.format;
-    }
-    else {
-        const guide = getGuide(fieldDef) || {};
-        return guide.format;
-    }
-}
-function defaultType(fieldDef, channel) {
-    if (fieldDef.timeUnit) {
-        return 'temporal';
-    }
-    if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin)) {
-        return 'quantitative';
-    }
-    switch (Object(_channel__WEBPACK_IMPORTED_MODULE_4__["rangeType"])(channel)) {
-        case 'continuous':
-            return 'quantitative';
-        case 'discrete':
-            return 'nominal';
-        case 'flexible': // color
-            return 'nominal';
-        default:
-            return 'quantitative';
-    }
-}
-/**
- * Returns the fieldDef -- either from the outer channelDef or from the condition of channelDef.
- * @param channelDef
- */
-function getFieldDef(channelDef) {
-    if (isFieldDef(channelDef)) {
-        return channelDef;
-    }
-    else if (hasConditionalFieldDef(channelDef)) {
-        return channelDef.condition;
-    }
-    return undefined;
-}
-function getTypedFieldDef(channelDef) {
-    if (isFieldDef(channelDef)) {
-        return channelDef;
-    }
-    else if (hasConditionalFieldDef(channelDef)) {
-        return channelDef.condition;
-    }
-    return undefined;
-}
-/**
- * Convert type to full, lowercase type, or augment the fieldDef with a default type if missing.
- */
-function normalize(channelDef, channel) {
-    if (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(channelDef) || Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isNumber"])(channelDef) || Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isBoolean"])(channelDef)) {
-        const primitiveType = Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(channelDef) ? 'string' : Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isNumber"])(channelDef) ? 'number' : 'boolean';
-        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].primitiveChannelDef(channel, primitiveType, channelDef));
-        return { value: channelDef };
-    }
-    // If a fieldDef contains a field, we need type.
-    if (isFieldDef(channelDef)) {
-        return normalizeFieldDef(channelDef, channel);
-    }
-    else if (hasConditionalFieldDef(channelDef)) {
-        return Object.assign({}, channelDef, { 
-            // Need to cast as normalizeFieldDef normally return FieldDef, but here we know that it is definitely Condition<FieldDef>
-            condition: normalizeFieldDef(channelDef.condition, channel) });
-    }
-    return channelDef;
-}
-function normalizeFieldDef(fieldDef, channel) {
-    // Drop invalid aggregate
-    if (fieldDef.aggregate && !Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isAggregateOp"])(fieldDef.aggregate)) {
-        const { aggregate } = fieldDef, fieldDefWithoutAggregate = tslib__WEBPACK_IMPORTED_MODULE_0__["__rest"](fieldDef, ["aggregate"]);
-        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].invalidAggregate(fieldDef.aggregate));
-        fieldDef = fieldDefWithoutAggregate;
-    }
-    // Normalize Time Unit
-    if (fieldDef.timeUnit) {
-        fieldDef = Object.assign({}, fieldDef, { timeUnit: Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["normalizeTimeUnit"])(fieldDef.timeUnit) });
-    }
-    // Normalize bin
-    if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin)) {
-        fieldDef = Object.assign({}, fieldDef, { bin: normalizeBin(fieldDef.bin, channel) });
-    }
-    if (Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinned"])(fieldDef.bin) && !Object(_util__WEBPACK_IMPORTED_MODULE_10__["contains"])(_channel__WEBPACK_IMPORTED_MODULE_4__["POSITION_SCALE_CHANNELS"], channel)) {
-        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](`Channel ${channel} should not be used with "binned" bin`);
-    }
-    // Normalize Type
-    if (isTypedFieldDef(fieldDef)) {
-        const fullType = Object(_type__WEBPACK_IMPORTED_MODULE_9__["getFullName"])(fieldDef.type);
-        if (fieldDef.type !== fullType) {
-            // convert short type to full type
-            fieldDef = Object.assign({}, fieldDef, { type: fullType });
-        }
-        if (fieldDef.type !== 'quantitative') {
-            if (Object(_aggregate__WEBPACK_IMPORTED_MODULE_2__["isCountingAggregateOp"])(fieldDef.aggregate)) {
-                _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].invalidFieldTypeForCountAggregate(fieldDef.type, fieldDef.aggregate));
-                fieldDef = Object.assign({}, fieldDef, { type: 'quantitative' });
-            }
-        }
-    }
-    else if (!Object(_channel__WEBPACK_IMPORTED_MODULE_4__["isSecondaryRangeChannel"])(channel)) {
-        // If type is empty / invalid, then augment with default type
-        const newType = defaultType(fieldDef, channel);
-        _log__WEBPACK_IMPORTED_MODULE_6__["warn"](_log__WEBPACK_IMPORTED_MODULE_6__["message"].missingFieldType(channel, newType));
-        fieldDef = Object.assign({}, fieldDef, { type: newType });
-    }
-    if (isTypedFieldDef(fieldDef)) {
-        const { compatible, warning } = channelCompatibility(fieldDef, channel);
-        if (!compatible) {
-            _log__WEBPACK_IMPORTED_MODULE_6__["warn"](warning);
-        }
-    }
-    return fieldDef;
-}
-function normalizeBin(bin, channel) {
-    if (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isBoolean"])(bin)) {
-        return { maxbins: Object(_bin__WEBPACK_IMPORTED_MODULE_3__["autoMaxBins"])(channel) };
-    }
-    else if (bin === 'binned') {
-        return {
-            binned: true
-        };
-    }
-    else if (!bin.maxbins && !bin.step) {
-        return Object.assign({}, bin, { maxbins: Object(_bin__WEBPACK_IMPORTED_MODULE_3__["autoMaxBins"])(channel) });
-    }
-    else {
-        return bin;
-    }
-}
-const COMPATIBLE = { compatible: true };
-function channelCompatibility(fieldDef, channel) {
-    const type = fieldDef.type;
-    if (type === 'geojson' && channel !== 'shape') {
-        return {
-            compatible: false,
-            warning: `Channel ${channel} should not be used with a geojson data.`
-        };
-    }
-    switch (channel) {
-        case 'row':
-        case 'column':
-        case 'facet':
-            if (isContinuous(fieldDef)) {
-                return {
-                    compatible: false,
-                    warning: _log__WEBPACK_IMPORTED_MODULE_6__["message"].facetChannelShouldBeDiscrete(channel)
-                };
-            }
-            return COMPATIBLE;
-        case 'x':
-        case 'y':
-        case 'color':
-        case 'fill':
-        case 'stroke':
-        case 'text':
-        case 'detail':
-        case 'key':
-        case 'tooltip':
-        case 'href':
-            return COMPATIBLE;
-        case 'longitude':
-        case 'longitude2':
-        case 'latitude':
-        case 'latitude2':
-            if (type !== _type__WEBPACK_IMPORTED_MODULE_9__["QUANTITATIVE"]) {
-                return {
-                    compatible: false,
-                    warning: `Channel ${channel} should be used with a quantitative field only, not ${fieldDef.type} field.`
-                };
-            }
-            return COMPATIBLE;
-        case 'opacity':
-        case 'fillOpacity':
-        case 'strokeOpacity':
-        case 'strokeWidth':
-        case 'size':
-        case 'x2':
-        case 'y2':
-            if (type === 'nominal' && !fieldDef['sort']) {
-                return {
-                    compatible: false,
-                    warning: `Channel ${channel} should not be used with an unsorted discrete field.`
-                };
-            }
-            return COMPATIBLE;
-        case 'shape':
-            if (!Object(_util__WEBPACK_IMPORTED_MODULE_10__["contains"])(['ordinal', 'nominal', 'geojson'], fieldDef.type)) {
-                return {
-                    compatible: false,
-                    warning: 'Shape channel should be used with only either discrete or geojson data.'
-                };
-            }
-            return COMPATIBLE;
-        case 'order':
-            if (fieldDef.type === 'nominal' && !('sort' in fieldDef)) {
-                return {
-                    compatible: false,
-                    warning: `Channel order is inappropriate for nominal field, which has no inherent order.`
-                };
-            }
-            return COMPATIBLE;
-    }
-    throw new Error('channelCompatability not implemented for channel ' + channel);
-}
-function isNumberFieldDef(fieldDef) {
-    return fieldDef.type === 'quantitative' || Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin);
-}
-function isTimeFieldDef(fieldDef) {
-    return fieldDef.type === 'temporal' || !!fieldDef.timeUnit;
-}
-/**
- * Getting a value associated with a fielddef.
- * Convert the value to Vega expression if applicable (for datetime object, or string if the field def is temporal or has timeUnit)
- */
-function valueExpr(v, { timeUnit, type, time, undefinedIfExprNotRequired }) {
-    let expr;
-    if (Object(_datetime__WEBPACK_IMPORTED_MODULE_5__["isDateTime"])(v)) {
-        expr = Object(_datetime__WEBPACK_IMPORTED_MODULE_5__["dateTimeExpr"])(v, true);
-    }
-    else if (Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isString"])(v) || Object(vega_util__WEBPACK_IMPORTED_MODULE_1__["isNumber"])(v)) {
-        if (timeUnit || type === 'temporal') {
-            if (Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["isLocalSingleTimeUnit"])(timeUnit)) {
-                expr = Object(_datetime__WEBPACK_IMPORTED_MODULE_5__["dateTimeExpr"])({ [timeUnit]: v }, true);
-            }
-            else if (Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["isUtcSingleTimeUnit"])(timeUnit)) {
-                // FIXME is this really correct?
-                expr = valueExpr(v, { timeUnit: Object(_timeunit__WEBPACK_IMPORTED_MODULE_8__["getLocalTimeUnit"])(timeUnit) });
-            }
-            else {
-                // just pass the string to date function (which will call JS Date.parse())
-                expr = `datetime(${JSON.stringify(v)})`;
-            }
-        }
-    }
-    if (expr) {
-        return time ? `time(${expr})` : expr;
-    }
-    // number or boolean or normal string
-    return undefinedIfExprNotRequired ? undefined : JSON.stringify(v);
-}
-/**
- * Standardize value array -- convert each value to Vega expression if applicable
- */
-function valueArray(fieldDef, values) {
-    const { timeUnit, type } = fieldDef;
-    return values.map(v => {
-        const expr = valueExpr(v, { timeUnit, type, undefinedIfExprNotRequired: true });
-        // return signal for the expression if we need an expression
-        if (expr !== undefined) {
-            return { signal: expr };
-        }
-        // otherwise just return the original value
-        return v;
-    });
-}
-/**
- * Checks whether a fieldDef for a particular channel requires a computed bin range.
- */
-function binRequiresRange(fieldDef, channel) {
-    if (!Object(_bin__WEBPACK_IMPORTED_MODULE_3__["isBinning"])(fieldDef.bin)) {
-        console.warn('Only use this method with binned field defs');
-        return false;
-    }
-    // We need the range only when the user explicitly forces a binned field to be use discrete scale. In this case, bin range is used in axis and legend labels.
-    // We could check whether the axis or legend exists (not disabled) but that seems overkill.
-    return Object(_channel__WEBPACK_IMPORTED_MODULE_4__["isScaleChannel"])(channel) && Object(_util__WEBPACK_IMPORTED_MODULE_10__["contains"])(['ordinal', 'nominal'], fieldDef.type);
 }
 
 
@@ -58575,17 +58646,22 @@ if(false) {}
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
+const toolkitmodel_1 = __webpack_require__(/*! toolkitmodel */ "./node_modules/toolkitmodel/dist/index.js");
 const ViewContainer_1 = __webpack_require__(/*! ../ToolkitView/ViewContainer */ "./src/ToolkitView/ViewContainer.tsx");
 const DataFlowDiagram_1 = __webpack_require__(/*! ./Diagram/DataFlowDiagram */ "./src/DataConfiguration/Diagram/DataFlowDiagram.tsx");
 const DataImportPanel_1 = __webpack_require__(/*! ./Overlays/DataImportPanel */ "./src/DataConfiguration/Overlays/DataImportPanel.tsx");
+const VegaExportOverlay_1 = __webpack_require__(/*! ./Overlays/VegaExportOverlay */ "./src/DataConfiguration/Overlays/VegaExportOverlay.tsx");
 const VegaInputOverlay_1 = __webpack_require__(/*! ./Overlays/VegaInputOverlay */ "./src/DataConfiguration/Overlays/VegaInputOverlay.tsx");
 const DataFlowSidebar_1 = __webpack_require__(/*! ./Sidebar/DataFlowSidebar */ "./src/DataConfiguration/Sidebar/DataFlowSidebar.tsx");
 const DataFlowToolbar_1 = __webpack_require__(/*! ./Toolbar/DataFlowToolbar */ "./src/DataConfiguration/Toolbar/DataFlowToolbar.tsx");
 __webpack_require__(/*! ./DataConfigurationView.css */ "./src/DataConfiguration/DataConfigurationView.css");
-const VegaExportOverlay_1 = __webpack_require__(/*! ./Overlays/VegaExportOverlay */ "./src/DataConfiguration/Overlays/VegaExportOverlay.tsx");
 class DataConfigurationView extends React.Component {
     constructor(props) {
         super(props);
+        this.addTemplates = this.addTemplates.bind(this);
+        this.addDatasetNode = this.addDatasetNode.bind(this);
+        this.dataImporter = new toolkitmodel_1.DataImporter();
+        this.dataImporter.onNewDataset = this.addDatasetNode.bind(this);
         this.state = {
             dataImportVisible: false,
             vegaPreviewVisible: false,
@@ -58603,8 +58679,16 @@ class DataConfigurationView extends React.Component {
         this.props.onDatasetsChanged();
     }
     addTemplates(templates) {
+        const datasets = templates
+            .map(template => template.dataTransformationNode)
+            .map(graphNode => {
+            this.dataImporter.loadFieldsAndValuesToNode(graphNode);
+            return graphNode;
+        });
+        this.props.datasets.push(...datasets);
         this.props.templates.push(...templates);
         this.props.onTemplatesChanged();
+        this.props.onDatasetsChanged();
     }
     toggleVegaPreviewVisible(visible) {
         if (visible !== undefined) {
@@ -58668,7 +58752,7 @@ class DataConfigurationView extends React.Component {
     }
     renderOverlays() {
         return (React.createElement("div", { className: "overlays" },
-            React.createElement(DataImportPanel_1.default, { visible: this.state.dataImportVisible, hidePanel: () => { this.setState({ dataImportVisible: false }); }, addDatasetNodeToGraph: this.addDatasetNode.bind(this) }),
+            React.createElement(DataImportPanel_1.default, { visible: this.state.dataImportVisible, hidePanel: () => { this.setState({ dataImportVisible: false }); }, addDatasetNodeToGraph: this.addDatasetNode }),
             React.createElement(VegaInputOverlay_1.default, { hidden: !this.state.customVegaInputVisible, hide: () => this.toggleCustomVegaInput(false), addTemplates: this.addTemplates }),
             React.createElement(VegaExportOverlay_1.default, { datasets: this.props.datasets, visible: !this.state.vegaPreviewVisible })));
     }
@@ -58775,7 +58859,7 @@ class Block extends React.Component {
         return `component ${nodeTypeClass} ${classNameProp} ${focusedNodeClass}`;
     }
     render() {
-        return (React.createElement("div", { onClick: this.props.onClick, className: this.getClassName(), id: this.props.node.id },
+        return (React.createElement("div", { onClick: this.props.onClick, onTouchStart: this.props.onClick, className: this.getClassName(), id: this.props.node.id },
             React.createElement("div", { className: "indicators" }, this.props.indicators),
             React.createElement("div", { className: "header" },
                 React.createElement("h2", null,
@@ -59235,10 +59319,10 @@ class VegaExportOverlay extends React.Component {
     }
     render() {
         const isPreviewHidden = this.props.visible ? '' : 'hidden';
-        return (React.createElement("div", { className: "vegaExport" },
+        return (React.createElement("div", { className: `vegaExport ${isPreviewHidden}` },
             React.createElement("h2", { className: "message" }, "Select Datasets to export as Vega-lite schema:"),
             this.renderDatasetSelection(),
-            React.createElement("textarea", { className: `vegaLitePreview ${isPreviewHidden}`, onChange: () => null, value: JSON.stringify(this.exportDataToVega(), null, 2) })));
+            React.createElement("textarea", { className: "vegaLitePreview", onChange: () => null, value: JSON.stringify(this.exportDataToVega(), null, 2) })));
     }
 }
 exports.default = VegaExportOverlay;

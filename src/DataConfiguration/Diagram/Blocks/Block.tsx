@@ -90,6 +90,7 @@ export default class Block extends React.Component<BlockProps, {}> {
     return (
       <div
         onClick={ this.props.onClick }
+        onTouchStart={ this.props.onClick }
         className={ this.getClassName() }
         id={ this.props.node.id }>
         <div className="indicators">

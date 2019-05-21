@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { DatasetNode, GraphNode, PlotTemplate, SpecCompiler, Template } from 'toolkitmodel';
-import { Datasets } from 'vega-lite/build/src/spec/toplevel';
+import { DataImporter, DatasetNode, GraphNode, PlotTemplate, SpecCompiler, Template } from 'toolkitmodel';
 
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
@@ -26,9 +25,16 @@ interface State {
 }
 
 export default class DataConfigurationView extends React.Component<Props, State> {
+  private dataImporter: DataImporter;
 
   constructor(props: Props) {
     super(props);
+
+    this.addTemplates = this.addTemplates.bind(this);
+    this.addDatasetNode = this.addDatasetNode.bind(this);
+
+    this.dataImporter = new DataImporter();
+    this.dataImporter.onNewDataset = this.addDatasetNode.bind(this);
 
     this.state = {
       dataImportVisible: false,
@@ -52,8 +58,18 @@ export default class DataConfigurationView extends React.Component<Props, State>
   }
 
   private addTemplates(templates: Template[]) {
+
+    const datasets = templates
+      .map(template => template.dataTransformationNode)
+      .map(graphNode => {
+        this.dataImporter.loadFieldsAndValuesToNode(graphNode);
+        return graphNode;
+      });
+
+    this.props.datasets.push(...datasets);
     this.props.templates.push(...templates);
     this.props.onTemplatesChanged();
+    this.props.onDatasetsChanged();
   }
 
   private toggleVegaPreviewVisible(visible?: boolean) {
@@ -169,7 +185,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
         <DataImportPanel
           visible={ this.state.dataImportVisible }
           hidePanel={ () => { this.setState({ dataImportVisible: false });}}
-          addDatasetNodeToGraph={ this.addDatasetNode.bind(this) } />
+          addDatasetNodeToGraph={ this.addDatasetNode } />
         <VegaInputOverlay
           hidden={ !this.state.customVegaInputVisible }
           hide={ () => this.toggleCustomVegaInput(false) }
