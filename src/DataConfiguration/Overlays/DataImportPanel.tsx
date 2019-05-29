@@ -55,7 +55,7 @@ export default class DataImportPanel extends React.Component<Props, {}> {
     return (
       <div id="dataImportFromDisk" className="panel">
         <h2>From Disk</h2>
-        <input id="addDatasetFromDisk" type="file" onChange={ this.dataImporter.readFileFromDisk } />
+        <input id="addDatasetFromDisk" type="file" onChange={ e => this.dataImporter.readFileFromDisk(e) } />
       </div>
     );
   }
