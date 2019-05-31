@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { DatasetNode, GraphNode, TransformNode } from 'toolkitmodel';
+import { DatasetNode, GraphNode, Template, TransformNode } from 'toolkitmodel';
 
 import Sidebar from '../../Widgets/Sidebar';
 import DatasetPreview from './DatasetPreview';
+import VegaPreview from './VegaPreview';
 
 import './DataFlowSidebar.css';
 
 interface Props {
   focusedNode: GraphNode;
+  datasetTemplateMap: Map<GraphNode, Template>
   updateFocusedNode: () => void;
 }
 interface State {
@@ -184,6 +186,29 @@ export default class DataFlowsidebar extends React.Component<Props, State> {
     return this.renderTransformNodeConfiguration();
   }
 
+  private renderVegaPreview() {
+    const nodeForPreview = this.props.focusedNode instanceof TransformNode
+      ? this.props.focusedNode.getRootDatasetNode()
+      : this.props.focusedNode;
+
+    const focusedNodeTemplate = this.props.datasetTemplateMap.get(nodeForPreview);
+
+    return (
+      <VegaPreview
+        focusedNode={ this.props.focusedNode }
+        focusedNodeTemplate={ focusedNodeTemplate } />
+    );
+  }
+
+  private renderBody() {
+    return (
+      <div className="dataFlowSidebarBody" style={ { maxHeight: window.innerHeight - 200 }}>
+        { this.renderFocusedNodeConfiguration() }
+        { this.renderVegaPreview() }
+      </div>
+    );
+  }
+
   public render() {
     return (
       <Sidebar
@@ -193,7 +218,7 @@ export default class DataFlowsidebar extends React.Component<Props, State> {
         height={ window.innerHeight - 135 }>
 
         { this.renderTitle() }
-        { this.renderFocusedNodeConfiguration() }
+        { this.renderBody() }
       </Sidebar>
     );
   }

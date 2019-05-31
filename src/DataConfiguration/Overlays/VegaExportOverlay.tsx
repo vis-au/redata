@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DatasetNode, GraphNode, PlotTemplate, SpecCompiler } from 'toolkitmodel';
+import { DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, SpecCompiler } from 'toolkitmodel';
 import { Datasets } from 'vega-lite/build/src/spec/toplevel';
 
 import './VegaExportOverlay.css';
@@ -45,9 +45,14 @@ export default class VegaExportOverlay extends React.Component<Props, State> {
   private getSelectedDatasetsDict(): Datasets {
     const selectedDatasets: Datasets = {};
 
-    this.state.selectedDatasets.forEach(node => {
-      selectedDatasets[node.id] = node.getSchema();
-    });
+    this.state.selectedDatasets
+      .filter(d => d instanceof InlineDatasetNode)
+      .forEach(node => {
+        const inlineSchema = node.getSchema();
+        if ('values' in inlineSchema) {
+          selectedDatasets[node.id] = inlineSchema.values;
+        }
+      });
 
     return selectedDatasets;
   }

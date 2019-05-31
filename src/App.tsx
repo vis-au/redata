@@ -20,7 +20,7 @@ export default class App extends React.Component<{}, State> {
 
     this.state = {
       datasets: [],
-      templates: [],
+      templates: []
     };
   }
 

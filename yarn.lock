@@ -8973,7 +8973,7 @@ to-regex@^3.0.1, to-regex@^3.0.2:
 
 "toolkitmodel@https://oauth2:aNyzmxMH2KYQNL6ck8bF@gitlab.au.dk/au629923/toolkitmodel.git":
   version "1.0.0"
-  resolved "https://oauth2:aNyzmxMH2KYQNL6ck8bF@gitlab.au.dk/au629923/toolkitmodel.git#5d24c32e5ab5e2a280883a611c6251eeb6369d2d"
+  resolved "https://oauth2:aNyzmxMH2KYQNL6ck8bF@gitlab.au.dk/au629923/toolkitmodel.git#748437150c723caec21eedd0dc307d7e6fcf4ad0"
   dependencies:
     "@types/d3-dsv" "^1.0.36"
     d3-dsv "^1.1.1"

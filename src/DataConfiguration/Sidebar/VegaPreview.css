@@ -1,0 +1,17 @@
+.vegaPreview {
+  display: flex;
+  flex-direction: column;
+}
+.vegaPreview button.jsonOrPreviewToggle {
+  background: none;
+  border: none;
+  color: steelblue;
+  cursor: pointer;
+}
+.vegaPreview button.jsonOrPreviewToggle:hover {
+  text-decoration: underline;
+}
+.vegaPreview textarea {
+  height: 300px;
+  overflow-y: auto;
+}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataImporter, DatasetNode, GraphNode, PlotTemplate, SpecCompiler, Template } from 'toolkitmodel';
+import { DataImporter, DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, Template, URLDatasetNode } from 'toolkitmodel';
 
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
@@ -22,6 +22,7 @@ interface State {
   dataImportVisible: boolean;
   vegaPreviewVisible: boolean;
   customVegaInputVisible: boolean;
+  datasetTemplateMap: Map<GraphNode, Template>;
 }
 
 export default class DataConfigurationView extends React.Component<Props, State> {
@@ -40,36 +41,54 @@ export default class DataConfigurationView extends React.Component<Props, State>
       dataImportVisible: false,
       vegaPreviewVisible: false,
       customVegaInputVisible: false,
-      focusedNode: null
+      focusedNode: null,
+      datasetTemplateMap: new Map(),
     };
   }
 
-  private addDatasetNode(node: DatasetNode) {
+  private addDatasetNode(node: DatasetNode, template: Template) {
     const nodes = this.props.datasets;
     const nodesWithEqualName = nodes.find(n => n.name === node.name);
+    const datasetTemplateMap = this.state.datasetTemplateMap;
 
     if (nodesWithEqualName !== undefined) {
       return;
+    } else if (node === null) {
+      return;
     }
+
+    if (!template) {
+      template = new PlotTemplate();
+      (template as PlotTemplate).mark = 'area';
+    }
+
+    datasetTemplateMap.set(node, template);
 
     this.props.datasets.push(node);
 
     this.props.onDatasetsChanged();
+    this.setState({ datasetTemplateMap });
   }
 
   private addTemplates(templates: Template[]) {
 
-    const datasets = templates
-      .map(template => template.dataTransformationNode)
-      .map(graphNode => {
-        this.dataImporter.loadFieldsAndValuesToNode(graphNode);
-        return graphNode;
+    templates
+      .filter(template => template.dataTransformationNode !== null)
+      .forEach(template => {
+        const dataTransformationNode = template.dataTransformationNode;
+        let rootTemplate = template;
+        while (rootTemplate.parent !== null) { rootTemplate = rootTemplate.parent; }
+
+        this.dataImporter.onNewDataset = node => this.addDatasetNode(node, rootTemplate);
+        this.dataImporter.loadFieldsAndValuesToNode(dataTransformationNode);
+
+        if (dataTransformationNode instanceof InlineDatasetNode) {
+          this.addDatasetNode(dataTransformationNode as DatasetNode, rootTemplate);
+        }
       });
 
-    this.props.datasets.push(...datasets);
     this.props.templates.push(...templates);
     this.props.onTemplatesChanged();
-    this.props.onDatasetsChanged();
   }
 
   private toggleVegaPreviewVisible(visible?: boolean) {
@@ -172,6 +191,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
         />
         <DataFlowSidebar
           focusedNode={ this.state.focusedNode }
+          datasetTemplateMap={ this.state.datasetTemplateMap }
           updateFocusedNode={ this.props.onDatasetsChanged }
         />
         { this.renderButtons() }
@@ -185,14 +205,14 @@ export default class DataConfigurationView extends React.Component<Props, State>
         <DataImportPanel
           visible={ this.state.dataImportVisible }
           hidePanel={ () => { this.setState({ dataImportVisible: false });}}
-          addDatasetNodeToGraph={ this.addDatasetNode } />
+          addDatasetNodeToGraph={ (node) => this.addDatasetNode(node, null) } />
         <VegaInputOverlay
           hidden={ !this.state.customVegaInputVisible }
           hide={ () => this.toggleCustomVegaInput(false) }
           addTemplates={ this.addTemplates } />
         <VegaExportOverlay
           datasets={ this.props.datasets }
-          visible={ !this.state.vegaPreviewVisible }/>
+          visible={ this.state.vegaPreviewVisible } />
       </div>
     );
   }
