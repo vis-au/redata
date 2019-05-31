@@ -167,13 +167,13 @@ export default class DataConfigurationView extends React.Component<Props, State>
 
             <i className="material-icons icon">attach_file</i>
           </button>
-          <button
+          {/* <button
             className="floatingAddButton"
             id="exportData"
             onClick={ () => this.toggleVegaPreviewVisible() }>
 
             <i className="material-icons icon">code</i>
-          </button>
+          </button> */}
         </div>
       </div>
     );
@@ -210,9 +210,9 @@ export default class DataConfigurationView extends React.Component<Props, State>
           hidden={ !this.state.customVegaInputVisible }
           hide={ () => this.toggleCustomVegaInput(false) }
           addTemplates={ this.addTemplates } />
-        <VegaExportOverlay
+        {/* <VegaExportOverlay
           datasets={ this.props.datasets }
-          visible={ this.state.vegaPreviewVisible } />
+          visible={ this.state.vegaPreviewVisible } /> */}
       </div>
     );
   }
