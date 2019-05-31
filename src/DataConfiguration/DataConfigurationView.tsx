@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataImporter, DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, Template, URLDatasetNode } from 'toolkitmodel';
+import { DataImporter, DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, RepeatTemplate, Template, URLDatasetNode } from 'toolkitmodel';
 
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
@@ -60,6 +60,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
     if (!template) {
       template = new PlotTemplate();
       (template as PlotTemplate).mark = 'area';
+      template.dataTransformationNode = node;
     }
 
     datasetTemplateMap.set(node, template);
@@ -79,7 +80,11 @@ export default class DataConfigurationView extends React.Component<Props, State>
         let rootTemplate = template;
         while (rootTemplate.parent !== null) { rootTemplate = rootTemplate.parent; }
 
-        this.dataImporter.onNewDataset = node => this.addDatasetNode(node, rootTemplate);
+        this.dataImporter.onNewDataset = node => {
+          this.addDatasetNode(node, rootTemplate);
+          template.dataTransformationNode = node;
+        };
+
         this.dataImporter.loadFieldsAndValuesToNode(dataTransformationNode);
 
         if (dataTransformationNode instanceof InlineDatasetNode) {
