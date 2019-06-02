@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { DataImporter, DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, RepeatTemplate, Template, URLDatasetNode } from 'toolkitmodel';
+import { DataImporter, DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, Template, TransformNode } from 'toolkitmodel';
 
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
 import DataImportPanel from './Overlays/DataImportPanel';
-import VegaExportOverlay from './Overlays/VegaExportOverlay';
 import VegaInputOverlay from './Overlays/VegaInputOverlay';
 import DataFlowSidebar from './Sidebar/DataFlowSidebar';
 import DataFlowToolbar from './Toolbar/DataFlowToolbar';
@@ -66,6 +65,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
     datasetTemplateMap.set(node, template);
 
     this.props.datasets.push(node);
+    this.props.datasets.push(...node.getAllChildNodes());
 
     this.props.onDatasetsChanged();
     this.setState({ datasetTemplateMap });
@@ -89,6 +89,8 @@ export default class DataConfigurationView extends React.Component<Props, State>
 
         if (dataTransformationNode instanceof InlineDatasetNode) {
           this.addDatasetNode(dataTransformationNode as DatasetNode, rootTemplate);
+        } else if (dataTransformationNode instanceof TransformNode) {
+          this.addDatasetNode(dataTransformationNode.getRootDatasetNode(), rootTemplate);
         }
       });
 
