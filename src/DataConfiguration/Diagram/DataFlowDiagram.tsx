@@ -39,6 +39,8 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
     this.graphNodeConnectionMap = new Map();
     this.connectionGraphNodeMap = new Map();
 
+    this.renderLinksForGraphNode = this.renderLinksForGraphNode.bind(this);
+
     this.dragPlumbing = jsPlumb.getInstance();
   }
 
@@ -54,7 +56,10 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
         return node.id === info.target.parentNode.id || node.id === info.target.id;
       });
 
-    sourceNode.children.push(targetNode as TransformNode);
+    if (sourceNode.children.indexOf(targetNode as TransformNode) === -1) {
+      sourceNode.children.push(targetNode as TransformNode);
+    }
+
     targetNode.parent = sourceNode;
 
     this.connectionGraphNodeMap.set(connection.id, [sourceNode, targetNode]);
@@ -71,7 +76,11 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
     const targetNodeConnections = this.graphNodeConnectionMap.get(targetNode.id);
     targetNodeConnections.push(connection);
 
-    this.props.updateGraph();
+    // jsplumb original event undefined --> conenctions was created programmatically and not by the
+    // user, which means that a preset was added, therefore the state must not be updated
+    if (originalEvent !== undefined) {
+      this.props.updateGraph();
+    }
   }
 
   private onConnectionMoved(event: any) {
@@ -94,6 +103,14 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
   private deleteNode(node: GraphNode) {
     const datasets = this.props.datasets;
     const indexInDatasets = datasets.indexOf(node);
+
+    const connections = this.graphNodeConnectionMap.get(node.id);
+
+    connections.forEach(connection => {
+      this.connectionGraphNodeMap.delete(connection.id);
+    });
+
+    this.graphNodeConnectionMap.delete(node.id);
 
     if (indexInDatasets === -1) {
       return;
@@ -142,6 +159,19 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
     });
   }
 
+  private renderLinksForGraphNode(node: GraphNode) {
+    node.children.forEach(childNode => {
+      const sourceSelector = document.querySelector(`#${node.id}`);
+      const targetSelector = document.querySelector(`#${childNode.id} .body`);
+
+      (this.dragPlumbing as any).connect({
+        source: sourceSelector,
+        target: targetSelector,
+        endpointStyle: dataflowDiagramPlumbingConfig
+      });
+    });
+  }
+
   public render() {
     return (
       <DiagramEditor
@@ -155,5 +185,24 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
         renderBlocks={ this.renderNodesAsBlocks.bind(this) }
       />
     );
+  }
+
+  public componentDidUpdate() {
+    this.props.datasets
+      .filter(node => {
+        const noOfConnectionsInData = node.children.length;
+
+        const mapEntry = this.graphNodeConnectionMap.get(node.id);
+
+        if (mapEntry === undefined) {
+          return true;
+        }
+
+        const noOfConnectionsInView = mapEntry.length;
+        return noOfConnectionsInData > noOfConnectionsInView;
+      })
+      .forEach(this.renderLinksForGraphNode);
+
+    this.dragPlumbing.repaintEverything();
   }
 }
