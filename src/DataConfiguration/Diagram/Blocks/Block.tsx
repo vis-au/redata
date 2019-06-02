@@ -17,6 +17,7 @@ interface BlockProps {
 
   updateGraph: () => void;
   onClick: (event: any) => void;
+  onDelete: () => void;
 }
 
 export default class Block extends React.Component<BlockProps, {}> {
@@ -46,13 +47,7 @@ export default class Block extends React.Component<BlockProps, {}> {
   }
 
   private deleteNodeFromGraph() {
-    // const graph = this.props.node.graph;
-    // const nodes = graph.nodes;
-    // const indexInNodes = nodes.indexOf(this.props.node);
 
-    // nodes.splice(indexInNodes, 1);
-
-    // this.props.updateGraph(graph);
   }
 
   private deletePlumbing() {
@@ -74,6 +69,7 @@ export default class Block extends React.Component<BlockProps, {}> {
   private delete(event: MouseEvent) {
     this.deletePlumbing();
     this.deleteNodeFromGraph();
+    this.props.onDelete();
     event.stopPropagation();
   }
 

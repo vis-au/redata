@@ -10,6 +10,7 @@ interface Props {
   focusedNode: GraphNode;
   dragPlumbing: any;
   onClick: (event: any) => void;
+  onDelete: () =>  void;
   updateGraph: () => void;
   onNodeChanged: () => void;
 }
@@ -35,6 +36,7 @@ export default class FunctionalBlock extends React.Component<Props, {}> {
         className={ this.doesNodeHaveDatasource() ? 'transform' : 'transform invalid' }
         body={ this.renderBody() }
         onClick= { this.props.onClick }
+        onDelete={ this.props.onDelete }
         plumbing={ this.props.dragPlumbing }
         updateGraph={ this.props.updateGraph }
       />

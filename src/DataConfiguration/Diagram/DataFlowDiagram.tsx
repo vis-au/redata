@@ -91,6 +91,20 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
     this.props.updateGraph();
   }
 
+  private deleteNode(node: GraphNode) {
+    const datasets = this.props.datasets;
+    const indexInDatasets = datasets.indexOf(node);
+
+    if (indexInDatasets === -1) {
+      return;
+    }
+
+    node.children.forEach(childNode => childNode.parent = null);
+
+    datasets.splice(indexInDatasets, 1);
+    this.props.updateGraph();
+  }
+
   private renderTransformBlock(node: TransformNode) {
     return (
       <TransformBlock
@@ -100,7 +114,8 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
         focusedNode={ this.props.focusedNode }
         updateGraph={ this.props.updateGraph }
         onClick={ this.props.selectFocusedNode.bind(this) }
-        onNodeChanged={ this.onNodeChanged.bind(this) } />
+        onNodeChanged={ this.onNodeChanged.bind(this) }
+        onDelete={ () => this.deleteNode(node)} />
     );
   }
 
@@ -112,7 +127,8 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
         dragPlumbing={ this.dragPlumbing }
         focusedNode={ this.props.focusedNode }
         updateGraph={ this.props.updateGraph }
-        onClick={ this.props.selectFocusedNode.bind(this) } />
+        onClick={ this.props.selectFocusedNode.bind(this) }
+        onDelete={ () => this.deleteNode(node)} />
     );
   }
 

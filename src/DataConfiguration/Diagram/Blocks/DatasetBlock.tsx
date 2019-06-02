@@ -12,6 +12,7 @@ interface Props {
   focusedNode: GraphNode;
   dragPlumbing: jsPlumbInstance;
   onClick: (event: any) => void;
+  onDelete: () => void;
   updateGraph: () => void;
 }
 
@@ -59,6 +60,7 @@ export default class DatasetBlock extends React.Component<Props, {}> {
         footer={ this.renderFooter() }
         onClick={ this.props.onClick }
         plumbing={ this.props.dragPlumbing }
+        onDelete={ this.props.onDelete }
         updateGraph={ this.props.updateGraph }
       />
     );
