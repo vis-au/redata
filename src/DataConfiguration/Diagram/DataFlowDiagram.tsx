@@ -106,11 +106,13 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
 
     const connections = this.graphNodeConnectionMap.get(node.id);
 
-    connections.forEach(connection => {
-      this.connectionGraphNodeMap.delete(connection.id);
-    });
+    if (!!connections) {
+      connections.forEach(connection => {
+        this.connectionGraphNodeMap.delete(connection.id);
+      });
 
-    this.graphNodeConnectionMap.delete(node.id);
+      this.graphNodeConnectionMap.delete(node.id);
+    }
 
     if (indexInDatasets === -1) {
       return;
