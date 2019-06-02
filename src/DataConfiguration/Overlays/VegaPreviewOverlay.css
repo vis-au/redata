@@ -1,0 +1,9 @@
+.vegaPreviewOverlay {
+  position: absolute;
+  top: 200px;
+  left: 2rem;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px #ccc;
+}

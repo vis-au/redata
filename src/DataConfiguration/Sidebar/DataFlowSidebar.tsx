@@ -53,46 +53,13 @@ export default class DataFlowsidebar extends React.Component<Props, State> {
     }
   }
 
-  private renderDatasetNodeConfigurationEntry(key: string) {
-
-    let value: string = (this.props.focusedNode.getSchema() as any)[key];
-
-    if (typeof value !== 'string' && value !== undefined) {
-      value = JSON.stringify(value, null, 2);
-    }
-
-    return (
-      <div
-        className="datasetNodeConfigurationEntry"
-        key={ `${this.props.focusedNode.id}${key}` }>
-
-        <div className="key">{ key }</div>
-        <div
-          id={ `${this.props.focusedNode.id}${key}` }
-          className="value"
-          title={ value }>
-
-          { value }
-        </div>
-      </div>
-    );
-  }
-
   private renderDatasetNodeConfiguration() {
     if (!(this.props.focusedNode instanceof DatasetNode)) {
       return false;
     }
 
-    const nodeConfigurationKeys = Object.keys(this.props.focusedNode.getSchema());
-
     return (
       <div id="dataflowSidebarDatasetNodeConfiguration">
-        {
-          nodeConfigurationKeys
-            .filter(key => key !== 'name')
-            .filter(key => key !== 'transform')
-            .map((d: string) => this.renderDatasetNodeConfigurationEntry(d))
-        }
         <DatasetPreview datasetNode={ this.props.focusedNode } />
       </div>
     );

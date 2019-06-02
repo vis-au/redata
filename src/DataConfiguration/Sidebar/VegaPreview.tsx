@@ -21,7 +21,7 @@ export default class VegaPreview extends React.Component<Props, State> {
 
     this.specCompiler = new SpecCompiler();
 
-    this.toggleJSONOrPreview = this.toggleJSONOrPreview.bind(this);
+    this.toggleJSON = this.toggleJSON.bind(this);
 
     this.state = {
       jsonVisible: false
@@ -39,27 +39,29 @@ export default class VegaPreview extends React.Component<Props, State> {
     return dummySchema;
   }
 
-  private toggleJSONOrPreview() {
+  private toggleJSON() {
     this.setState({ jsonVisible: !this.state.jsonVisible });
   }
 
   private renderToggle() {
-    const message = `show ${this.state.jsonVisible ? 'Preview' : 'JSON'}`;
+    const message = `${this.state.jsonVisible ? 'hide Vega-Lite' : 'show Vega-Lite'}`;
 
     return (
       <button
         className="jsonOrPreviewToggle"
-        onClick={ this.toggleJSONOrPreview }>
+        onClick={ this.toggleJSON }>
 
         { message }
       </button>
     );
   }
 
-  private renderJSONSchema(schema: Spec) {
+  private renderJSONSchema() {
     if (!this.state.jsonVisible) {
       return null;
     }
+
+    const schema = this.getSchemaForFocusedNode();
 
     return (
       <textarea
@@ -69,28 +71,15 @@ export default class VegaPreview extends React.Component<Props, State> {
     );
   }
 
-  private renderPreview(schema: Spec) {
-    if (this.state.jsonVisible) {
-      return null;
-    }
-
-    return (
-      <VegaRenderer schema={schema} />
-    );
-  }
-
   public render() {
     if (this.props.focusedNode === null) {
       return null;
     }
 
-    const schema = this.getSchemaForFocusedNode();
-
     return (
       <div className="vegaPreview">
         { this.renderToggle() }
-        { this.renderJSONSchema(schema) }
-        { this.renderPreview(schema) }
+        { this.renderJSONSchema() }
       </div>
     );
   }

@@ -40,3 +40,11 @@
   background: steelblue;
   margin-left: 2rem;
 }
+#dataFlowBody .buttons button.active {
+  background: steelblue;
+  color: #fff;
+}
+#dataFlowBody .buttons button.inactive {
+  background: #fff;
+  color: steelblue;
+}

@@ -9,6 +9,7 @@ import DataFlowSidebar from './Sidebar/DataFlowSidebar';
 import DataFlowToolbar from './Toolbar/DataFlowToolbar';
 
 import './DataConfigurationView.css';
+import VegaPreviewOverlay from './Overlays/VegaPreviewOverlay';
 
 interface Props {
   datasets: GraphNode[];
@@ -38,7 +39,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
 
     this.state = {
       dataImportVisible: false,
-      vegaPreviewVisible: false,
+      vegaPreviewVisible: true,
       customVegaInputVisible: false,
       focusedNode: null,
       datasetTemplateMap: new Map(),
@@ -161,9 +162,16 @@ export default class DataConfigurationView extends React.Component<Props, State>
           <button
             className="floatingAddButton"
             id="addNewDataset"
-            onClick={ () => { this.setState({ dataImportVisible: true }); } }>
+            onClick={ () => this.setState({ dataImportVisible: true }) }>
 
             +
+          </button>
+          <button
+            className={`floatingAddButton ${ this.state.vegaPreviewVisible ? 'active' : 'inactive' }`}
+            id="vegaPreview"
+            onClick={ () => this.toggleVegaPreviewVisible() }>
+
+            <i className="material-icons icon">visibility</i>
           </button>
         </div>
         <div className="right">
@@ -172,15 +180,8 @@ export default class DataConfigurationView extends React.Component<Props, State>
             id="vegaInput"
             onClick={ () => this.toggleCustomVegaInput() }>
 
-            <i className="material-icons icon">attach_file</i>
+            <i className="material-icons icon">bar_chart</i>
           </button>
-          {/* <button
-            className="floatingAddButton"
-            id="exportData"
-            onClick={ () => this.toggleVegaPreviewVisible() }>
-
-            <i className="material-icons icon">code</i>
-          </button> */}
         </div>
       </div>
     );
@@ -207,6 +208,12 @@ export default class DataConfigurationView extends React.Component<Props, State>
   }
 
   private renderOverlays() {
+    let focusedNodeTemplate = this.state.datasetTemplateMap.get(this.state.focusedNode);
+
+    if (this.state.focusedNode instanceof TransformNode) {
+      focusedNodeTemplate = this.state.datasetTemplateMap.get(this.state.focusedNode.getRootDatasetNode());
+    }
+
     return (
       <div className="overlays">
         <DataImportPanel
@@ -217,9 +224,10 @@ export default class DataConfigurationView extends React.Component<Props, State>
           hidden={ !this.state.customVegaInputVisible }
           hide={ () => this.toggleCustomVegaInput(false) }
           addTemplates={ this.addTemplates } />
-        {/* <VegaExportOverlay
-          datasets={ this.props.datasets }
-          visible={ this.state.vegaPreviewVisible } /> */}
+        <VegaPreviewOverlay
+          hidden={ !this.state.vegaPreviewVisible }
+          focusedNodeTemplate={ focusedNodeTemplate }
+        />
       </div>
     );
   }
