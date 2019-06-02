@@ -10,7 +10,7 @@ import './DataFlowDiagram.css';
 
 
 const dataflowDiagramPlumbingConfig = {
-  Anchor: ['Left'],
+  Anchor: ['Left', 'Right'],
   Connector: [ 'Flowchart', { stub: 25, cornerRadius: 1 } ],
   Endpoint: [ 'Dot', {'fill': 'steelblue', radius: 5} ],
   EndpointStyle: { fill: 'steelblue' },
@@ -166,9 +166,8 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
 
       (this.dragPlumbing as any).connect({
         source: sourceSelector,
-        target: targetSelector,
-        endpointStyle: dataflowDiagramPlumbingConfig
-      });
+        target: targetSelector
+      }, dataflowDiagramPlumbingConfig);
     });
   }
 
