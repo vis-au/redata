@@ -39,7 +39,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
 
     this.state = {
       dataImportVisible: false,
-      vegaPreviewVisible: true,
+      vegaPreviewVisible: false,
       customVegaInputVisible: false,
       focusedNode: null,
       datasetTemplateMap: new Map(),

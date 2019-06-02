@@ -95,20 +95,17 @@ export default class DataFlowsidebar extends React.Component<Props, State> {
     if (this.props.focusedNode === undefined) { return false; }
     if (this.props.focusedNode === null) { return false; }
 
-    const isInputVisible = this.state.isTitleInputVisible;
-    const isDataset = this.props.focusedNode instanceof DatasetNode;
-
     return (
       <div id="dataflowSidebarTitle">
         <h2
-          className={ (isInputVisible && !isDataset) ? 'hidden' : '' }
-          onClick={ () => this.setState({ isTitleInputVisible: !isDataset }) }>
+          className={ this.state.isTitleInputVisible ? 'hidden' : '' }
+          onClick={ () => this.setState({ isTitleInputVisible: true }) }>
           <span className="focusedNodeTitle">{ this.getSelectedNodeName() }</span>
           <span className="focusedNodeType">{ this.getNodeType() }</span>
         </h2>
         <input
           id="modifyNodeName"
-          className={ isInputVisible ? '' : 'hidden' }
+          className={ this.state.isTitleInputVisible ? '' : 'hidden' }
           type="text"
           value={ this.props.focusedNode.name }
           onChange={ this.onNodeNameChanged.bind(this) }
