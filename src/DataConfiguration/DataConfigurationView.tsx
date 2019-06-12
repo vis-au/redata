@@ -194,6 +194,7 @@ export default class DataConfigurationView extends React.Component<Props, State>
           datasets={ this.props.datasets }
           updateGraph= { this.props.onDatasetsChanged }
           focusedNode={ this.state.focusedNode }
+          datasetTemplateMap={ this.state.datasetTemplateMap }
           selectFocusedNode={ this.selectFocusedNode.bind(this) }
           deselectFocusedNode={ this.deselectfocusedNode.bind(this) }
         />

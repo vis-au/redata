@@ -1,6 +1,6 @@
 import {Connection, jsPlumb, jsPlumbInstance} from 'jsplumb';
 import * as React from 'react';
-import { DatasetNode, GraphNode, TransformNode } from 'toolkitmodel';
+import { DatasetNode, GraphNode, Template, TransformNode } from 'toolkitmodel';
 
 import DiagramEditor from '../../Widgets/DiagramEditor';
 import DatasetBlock from './Blocks/DatasetBlock';
@@ -23,6 +23,7 @@ const dataflowDiagramPlumbingConfig = {
 interface Props {
   datasets: GraphNode[];
   focusedNode: GraphNode;
+  datasetTemplateMap: Map<GraphNode, Template>;
   selectFocusedNode: (newNode: GraphNode) => void;
   deselectFocusedNode: () => void;
   updateGraph: () => void;
@@ -61,6 +62,15 @@ export default class DataFlowDiagram extends React.Component<Props, {}> {
     }
 
     targetNode.parent = sourceNode;
+
+    let sourceNodeTemplate = null;
+    if (sourceNode instanceof TransformNode) {
+      sourceNodeTemplate = this.props.datasetTemplateMap.get(sourceNode.getRootDatasetNode());
+    }
+
+    if (!!sourceNodeTemplate && !!originalEvent) {
+      sourceNodeTemplate.dataTransformationNode = targetNode;
+    }
 
     this.connectionGraphNodeMap.set(connection.id, [sourceNode, targetNode]);
 
