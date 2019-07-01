@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GraphNode, TransformName, transformNames, TransformNode } from 'toolkitmodel';
+import { GraphNode, TransformName, transformNames, TransformNode } from 'remodel-vis';
 import { Transform } from 'vega-lite/build/src/transform';
 
 import Toolbar from '../../Widgets/Toolbar';

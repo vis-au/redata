@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DatasetNode, GraphNode, Template, TransformNode } from 'toolkitmodel';
+import { DatasetNode, GraphNode, Template, TransformNode } from 'remodel-vis';
 
 import Sidebar from '../../Widgets/Sidebar';
 import DatasetPreview from './DatasetPreview';

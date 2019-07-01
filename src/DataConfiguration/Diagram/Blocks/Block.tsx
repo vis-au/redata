@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { DatasetNode, GraphNode, TransformNode } from 'toolkitmodel';
+import { DatasetNode, GraphNode, TransformNode } from 'remodel-vis';
 import CONFIG from '../DataFlowConfig';
 
 import './Block.css';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DatasetNode } from 'toolkitmodel';
+import { DatasetNode } from 'remodel-vis';
 
 
 import './DatasetPreview.css';

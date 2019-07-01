@@ -1,7 +1,7 @@
 import { jsPlumbInstance } from 'jsplumb';
 import * as React from 'react';
 
-import { DatasetNode, GraphNode, URLDatasetNode } from 'toolkitmodel';
+import { DatasetNode, GraphNode, URLDatasetNode } from 'remodel-vis';
 import FieldBuildingBlock from '../../../BuildingBlocks/FieldBuildingBlock';
 import Block from './Block';
 

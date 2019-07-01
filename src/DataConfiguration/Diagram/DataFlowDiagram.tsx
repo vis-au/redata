@@ -1,6 +1,6 @@
 import {Connection, jsPlumb, jsPlumbInstance} from 'jsplumb';
 import * as React from 'react';
-import { DatasetNode, GraphNode, Template, TransformNode } from 'toolkitmodel';
+import { DatasetNode, GraphNode, Template, TransformNode } from 'remodel-vis';
 
 import DiagramEditor from '../../Widgets/DiagramEditor';
 import DatasetBlock from './Blocks/DatasetBlock';

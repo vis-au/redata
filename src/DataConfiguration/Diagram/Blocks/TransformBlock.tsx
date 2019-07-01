@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { GraphNode, TransformNode } from 'toolkitmodel';
+import { GraphNode, TransformNode } from 'remodel-vis';
 import Block from './Block';
 
 import './TransformBlock.css';

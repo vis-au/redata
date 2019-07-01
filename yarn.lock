@@ -7879,6 +7879,17 @@ relateurl@0.2.x:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
+remodel-vis@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/remodel-vis/-/remodel-vis-1.0.0.tgz#d7e32c37e626f0959ac04b14975ed89fa8c1132d"
+  integrity sha512-o7PaKJU+N45fFb+aUXav4pwTh2j7/ooXJINfbYaLKQvKwChcefcPHtKNpDNaYeL/4cWU8AnP73/KPdAEctGRbA==
+  dependencies:
+    "@types/d3-dsv" "^1.0.36"
+    d3-dsv "^1.1.1"
+    typescript "^3.4.1"
+    vega "5.3.2"
+    vega-lite "^3.2.1"
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -8971,16 +8982,6 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-"toolkitmodel@https://oauth2:aNyzmxMH2KYQNL6ck8bF@gitlab.au.dk/au629923/toolkitmodel.git":
-  version "1.0.0"
-  resolved "https://oauth2:aNyzmxMH2KYQNL6ck8bF@gitlab.au.dk/au629923/toolkitmodel.git#3d05b6f40da2b7eab3f5a9e918ec96e20af75651"
-  dependencies:
-    "@types/d3-dsv" "^1.0.36"
-    d3-dsv "^1.1.1"
-    typescript "^3.4.1"
-    vega "5.3.2"
-    vega-lite "^3.2.1"
-
 topojson-client@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/topojson-client/-/topojson-client-3.0.0.tgz#1f99293a77ef42a448d032a81aa982b73f360d2f"
@@ -9077,9 +9078,9 @@ typescript@^3.0.1:
   integrity sha512-jjOcCZvpkl2+z7JFn0yBOoLQyLoIkNZAs/fYJkUG6VKy6zLPHJGfQJYFHzibB6GJaF/8QrcECtlQ5cpvRHSMEA==
 
 typescript@^3.4.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.1.tgz#ba72a6a600b2158139c5dd8850f700e231464202"
-  integrity sha512-64HkdiRv1yYZsSe4xC1WVgamNigVYjlssIoaH2HcZF0+ijsk5YK2g0G34w9wJkze8+5ow4STd22AynfO6ZYYLw==
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.2.tgz#a09e1dc69bc9551cadf17dba10ee42cf55e5d56c"
+  integrity sha512-7KxJovlYhTX5RaRbUdkAXN1KUZ8PwWlTzQdHV6xNqvuFOs7+WBo10TQUqT19Q/Jz2hk5v9TQDIhyLhhJY4p5AA==
 
 typings-for-css-modules-loader@^1.7.0:
   version "1.7.0"

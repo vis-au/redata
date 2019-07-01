@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GraphNode, Template } from 'toolkitmodel';
+import { GraphNode, Template } from 'remodel-vis';
 
 import DataFlowConfigurationView from './DataConfiguration/DataConfigurationView';
 import MainView from './ToolkitView/MainView';

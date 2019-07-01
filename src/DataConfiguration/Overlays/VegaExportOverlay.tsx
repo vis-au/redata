@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, SpecCompiler } from 'toolkitmodel';
+import { DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, SpecCompiler } from 'remodel-vis';
 import { Datasets } from 'vega-lite/build/src/spec/toplevel';
 
 import './VegaExportOverlay.css';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataImporter, DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, Template, TransformNode } from 'toolkitmodel';
+import { DataImporter, DatasetNode, GraphNode, InlineDatasetNode, PlotTemplate, Template, TransformNode } from 'remodel-vis';
 
 import ViewContainer from '../ToolkitView/ViewContainer';
 import DataFlowDiagram from './Diagram/DataFlowDiagram';
