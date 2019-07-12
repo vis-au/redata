@@ -28,10 +28,10 @@
     "awesome-typescript-loader": "^5.2.0",
     "source-map-loader": "^0.2.4",
     "tslint-config-prettier": "^1.15.0",
-    "typings-for-css-modules-loader": "^1.7.0",
     "typescript": "^3.0.1",
-    "webpack-cli": "^3.1.0",
+    "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.6"
   },
   "scripts": {
