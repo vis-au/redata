@@ -20,7 +20,7 @@
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.4",
     "remodel-vis": "^1.0.0",
-    "vega": "5.3.2",
+    "vega": "5.17.3",
     "vega-embed": "^4.0.0",
     "vega-lite": "^3.2.1"
   },
